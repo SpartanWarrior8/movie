@@ -86,7 +86,7 @@
   }
   .poster {
     height: 120px; display: flex; align-items: center; justify-content: center;
-    color: #fff; font-size: 20px; font-weight: 800; text-align: center; padding: 10px;
+    color: #fff; font-size: 18px; font-weight: 800; text-align: center; padding: 10px;
     position: relative;
   }
   .score-badge {
@@ -108,6 +108,7 @@
     text-decoration: none; font-size: 14px; font-weight: 600;
   }
   .empty { text-align: center; color: #999; padding: 60px 20px; grid-column: 1/-1; }
+  .count-info { max-width: 900px; margin: 0 auto; padding: 0 20px; font-size: 13px; color: #999; }
 
   .lists { max-width: 900px; margin: 0 auto 40px; padding: 0 20px; }
   .list-card {
@@ -159,7 +160,7 @@
   @media (max-width: 480px) {
     .hero h1 { font-size: 24px; }
     .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .poster { height: 100px; font-size: 16px; }
+    .poster { height: 100px; font-size: 14px; }
   }
 </style>
 </head>
@@ -202,6 +203,7 @@
   <div class="tab" data-cat="电影">电影</div>
   <div class="tab" data-cat="综艺">综艺</div>
   <div class="tab" data-cat="动漫">动漫</div>
+  <div class="tab" data-cat="纪录片">纪录片</div>
 </div>
 
 <div class="tags" id="tags">
@@ -215,8 +217,11 @@
   <div class="tag" data-tag="搞笑">搞笑</div>
   <div class="tag" data-tag="动作">动作</div>
   <div class="tag" data-tag="犯罪">犯罪</div>
+  <div class="tag" data-tag="武侠">武侠</div>
+  <div class="tag" data-tag="历史">历史</div>
 </div>
 
+<div class="count-info" id="countInfo"></div>
 <div class="grid" id="grid"></div>
 
 <div class="section-title">剧荒片单 <span>按主题挑着看</span></div>
@@ -247,32 +252,151 @@ const SHOWS = [
   { title:"去有风的地方", cat:"电视剧", year:"2023", score:8.6, tags:["治愈","甜宠"], desc:"刘亦菲、李现主演，大理治愈系慢生活。", plats:["湖南卫视","芒果TV"] },
   { title:"斗罗大陆 真人版", cat:"电视剧", year:"2021", score:6.4, tags:["玄幻","动作"], desc:"肖战、吴宣仪主演，唐家三少玄幻IP改编。", plats:["腾讯视频"] },
   { title:"长相思", cat:"电视剧", year:"2023", score:7.8, tags:["古装","甜宠"], desc:"杨紫主演，大荒背景下的爱恨纠葛。", plats:["腾讯视频"] },
-  { title:"莲花楼", cat:"电视剧", year:"2023", score:8.5, tags:["古装","悬疑"], desc:"成毅主演，江湖探案武侠剧。", plats:["芒果TV"] },
+  { title:"莲花楼", cat:"电视剧", year:"2023", score:8.5, tags:["古装","武侠","悬疑"], desc:"成毅主演，江湖探案武侠剧。", plats:["芒果TV"] },
   { title:"梦华录", cat:"电视剧", year:"2022", score:7.9, tags:["古装","甜宠"], desc:"刘亦菲、陈晓主演，北宋汴京风华录。", plats:["腾讯视频"] },
   { title:"开端", cat:"电视剧", year:"2022", score:7.9, tags:["悬疑","科幻"], desc:"白敬亭、赵今麦主演，公交车循环悬疑。", plats:["腾讯视频"] },
   { title:"隐秘的角落", cat:"电视剧", year:"2020", score:8.8, tags:["悬疑","犯罪"], desc:"秦昊主演，三个小孩引发的罪案。", plats:["爱奇艺"] },
   { title:"沉默的真相", cat:"电视剧", year:"2020", score:9.1, tags:["悬疑","犯罪"], desc:"廖凡主演，横跨十年的检察正义。", plats:["爱奇艺"] },
   { title:"星汉灿烂", cat:"电视剧", year:"2022", score:7.7, tags:["古装","甜宠"], desc:"吴磊、赵露思主演，古装成长爱情。", plats:["腾讯视频"] },
-  { title:"沉香如屑", cat:"电视剧", year:"2022", score:6.8, tags:["古装","玄幻"], desc:"杨紫、成毅主演，仙侠虐恋。", plats:["优酷"] },
+  { title:"甄嬛传", cat:"电视剧", year:"2011", score:9.3, tags:["古装","宫斗"], desc:"孙俪主演，宫廷剧天花板，百看不厌。", plats:["优酷"] },
+  { title:"琅琊榜", cat:"电视剧", year:"2015", score:9.4, tags:["古装","权谋"], desc:"胡歌主演，梅长苏雪冤夺嫡经典。", plats:["腾讯视频","爱奇艺"] },
+  { title:"武林外传", cat:"电视剧", year:"2006", score:9.6, tags:["搞笑","古装"], desc:"尚敬执导，同福客栈经典喜剧。", plats:["腾讯视频","爱奇艺"] },
+  { title:"亮剑", cat:"电视剧", year:"2005", score:9.5, tags:["动作","战争"], desc:"李幼斌主演，李云龙亮剑精神。", plats:["腾讯视频","爱奇艺"] },
+  { title:"西游记", cat:"电视剧", year:"1986", score:9.7, tags:["古装","玄幻"], desc:"六小龄童主演，童年回忆杀。", plats:["央视网"] },
+  { title:"红楼梦", cat:"电视剧", year:"1987", score:9.6, tags:["古装","文学"], desc:"陈晓旭主演，经典文学改编。", plats:["央视网"] },
+  { title:"三国演义", cat:"电视剧", year:"1994", score:9.6, tags:["古装","历史","权谋"], desc:"唐国强主演，四大名著经典。", plats:["央视网"] },
+  { title:"潜伏", cat:"电视剧", year:"2009", score:9.4, tags:["悬疑","谍战"], desc:"孙红雷、姚晨主演，谍战经典。", plats:["爱奇艺"] },
+  { title:"风筝", cat:"电视剧", year:"2017", score:9.0, tags:["悬疑","谍战"], desc:"柳云龙主演，谍战巅峰之作。", plats:["腾讯视频"] },
+  { title:"伪装者", cat:"电视剧", year:"2015", score:8.6, tags:["悬疑","谍战","动作"], desc:"胡歌、靳东、王凯主演，明家三兄弟。", plats:["腾讯视频","芒果TV"] },
+  { title:"白夜追凶", cat:"电视剧", year:"2017", score:9.0, tags:["悬疑","犯罪"], desc:"潘粤明一人分饰双胞胎，刑侦悬疑。", plats:["优酷"] },
+  { title:"猎罪图鉴", cat:"电视剧", year:"2022", score:7.6, tags:["悬疑","犯罪"], desc:"檀健次主演，画像师刑侦剧。", plats:["腾讯视频","爱奇艺"] },
+  { title:"狂飙", cat:"电视剧", year:"2023", score:8.5, tags:["犯罪","动作"], desc:"张译、张颂文主演。", plats:["爱奇艺"] },
+  { title:"尘封十三载", cat:"电视剧", year:"2023", score:8.1, tags:["悬疑","犯罪"], desc:"陈建斌、陈晓主演，跨度十三年。", plats:["爱奇艺"] },
+  { title:"平原上的摩西", cat:"电视剧", year:"2023", score:7.6, tags:["悬疑","文艺"], desc:"董宝石、海清主演，东北文艺悬疑。", plats:["腾讯视频"] },
+  { title:"回来的女儿", cat:"电视剧", year:"2022", score:7.3, tags:["悬疑","家庭"], desc:"张子枫、梅婷主演，90年代秘密。", plats:["爱奇艺"] },
+  { title:"知否知否应是绿肥红瘦", cat:"电视剧", year:"2018", score:7.9, tags:["古装","宅斗"], desc:"赵丽颖、冯绍峰主演，盛明兰成长。", plats:["湖南卫视","爱奇艺"] },
+  { title:"大明王朝1566", cat:"电视剧", year:"2007", score:9.7, tags:["古装","历史","权谋"], desc:"陈宝国、黄志忠主演，历史剧天花板。", plats:["芒果TV"] },
+  { title:"走向共和", cat:"电视剧", year:"2003", score:9.6, tags:["古装","历史"], desc:"王冰主演，晚清民国史诗。", plats:["优酷"] },
+  { title:"康熙王朝", cat:"电视剧", year:"2001", score:9.2, tags:["古装","历史"], desc:"陈道明主演，康熙大帝一生。", plats:["腾讯视频","爱奇艺"] },
+  { title:"雍正王朝", cat:"电视剧", year:"1999", score:9.4, tags:["古装","历史"], desc:"唐国强主演，雍正夺嫡治国。", plats:["腾讯视频","爱奇艺"] },
+  { title:"汉武大帝", cat:"电视剧", year:"2005", score:9.1, tags:["古装","历史"], desc:"陈宝国主演，汉武帝刘彻。", plats:["央视网"] },
+  { title:"庆余年", cat:"电视剧", year:"2019", score:7.9, tags:["古装","搞笑"], desc:"张若昀主演，范闲初入京都。", plats:["腾讯视频"] },
+  { title:"雪中悍刀行", cat:"电视剧", year:"2021", score:5.9, tags:["古装","武侠"], desc:"张若昀主演，徐凤年江湖行。", plats:["腾讯视频","央视网"] },
+  { title:"天龙八部", cat:"电视剧", year:"2003", score:8.5, tags:["古装","武侠"], desc:"胡军、林志颖主演，金庸武侠。", plats:["腾讯视频","爱奇艺"] },
+  { title:"射雕英雄传", cat:"电视剧", year:"2017", score:8.0, tags:["古装","武侠"], desc:"杨旭文、李一桐主演，新射雕。", plats:["爱奇艺","腾讯视频"] },
+  { title:"笑傲江湖", cat:"电视剧", year:"2001", score:8.2, tags:["古装","武侠"], desc:"李亚鹏、许晴主演，经典笑傲。", plats:["腾讯视频"] },
+  { title:"大宋少年志", cat:"电视剧", year:"2019", score:7.9, tags:["古装","悬疑","武侠"], desc:"张新成主演，少年密探。", plats:["湖南卫视","芒果TV"] },
+  { title:"大宋少年志2", cat:"电视剧", year:"2023", score:8.4, tags:["古装","悬疑","武侠"], desc:"原班人马回归，七斋再聚。", plats:["湖南卫视","芒果TV"] },
+  { title:"少年游之一寸相思", cat:"电视剧", year:"2020", score:8.2, tags:["古装","武侠"], desc:"小众武侠黑马，打戏扎实。", plats:["腾讯视频"] },
+  { title:"侠探简不知", cat:"电视剧", year:"2020", score:7.8, tags:["古装","悬疑","武侠"], desc:"武侠探案网剧，口碑黑马。", plats:["优酷"] },
+  { title:"少年歌行", cat:"电视剧", year:"2022", score:7.3, tags:["古装","武侠"], desc:"李宏毅主演，萧瑟。", plats:["优酷"] },
+  { title:"少年白马醉春风", cat:"电视剧", year:"2024", score:7.5, tags:["古装","武侠"], desc:"少年歌行前传。", plats:["优酷"] },
+  { title:"一念关山", cat:"电视剧", year:"2023", score:7.3, tags:["古装","武侠","动作"], desc:"刘诗诗、刘宇宁主演，任如意宁远舟。", plats:["爱奇艺"] },
+  { title:"田耕纪", cat:"电视剧", year:"2023", score:7.1, tags:["古装","种田"], desc:"曾舜晞、田曦薇主演，穿越古代种田。", plats:["爱奇艺"] },
+  { title:"宁安如梦", cat:"电视剧", year:"2023", score:7.0, tags:["古装","重生"], desc:"白鹿、张凌赫主演，姜雪宁重生。", plats:["爱奇艺"] },
+  { title:"九重紫", cat:"电视剧", year:"2024", score:7.5, tags:["古装","重生","宅斗"], desc:"孟子义、李昀锐主演。", plats:["腾讯视频"] },
+  { title:"永夜星河", cat:"电视剧", year:"2024", score:7.2, tags:["古装","穿越","搞笑"], desc:"虞书欣、丁禹兮主演。", plats:["腾讯视频","爱奇艺"] },
+  { title:"锦绣安宁", cat:"电视剧", year:"2024", score:7.1, tags:["古装","宅斗"], desc:"任敏、张晚意主演。", plats:["腾讯视频","湖南卫视"] },
+  { title:"花间令", cat:"电视剧", year:"2024", score:6.8, tags:["古装","悬疑"], desc:"鞠婧祎、刘学义主演。", plats:["优酷","腾讯视频"] },
+  { title:"颜心记", cat:"电视剧", year:"2024", score:7.0, tags:["古装","悬疑"], desc:"宋轶、罗云熙主演。", plats:["爱奇艺"] },
+  { title:"大奉打更人", cat:"电视剧", year:"2024", score:7.2, tags:["古装","玄幻","搞笑"], desc:"王鹤棣主演，许七安打更人。", plats:["腾讯视频"] },
+  { title:"长相思 第二季", cat:"电视剧", year:"2024", score:7.6, tags:["古装","甜宠","虐恋"], desc:"杨紫主演，小夭结局。", plats:["腾讯视频"] },
+  { title:"你是我的荣耀", cat:"电视剧", year:"2021", score:7.8, tags:["甜宠","都市"], desc:"杨洋、迪丽热巴主演，航天工程师与女星。", plats:["腾讯视频"] },
+  { title:"亲爱的热爱的", cat:"电视剧", year:"2019", score:7.6, tags:["甜宠","都市"], desc:"杨紫、李现主演，CTF电竞恋爱。", plats:["爱奇艺","腾讯视频"] },
+  { title:"偷偷藏不住", cat:"电视剧", year:"2023", score:7.4, tags:["甜宠","青春"], desc:"赵露思、陈哲远主演，桑稚暗恋段嘉许。", plats:["优酷"] },
+  { title:"当我飞奔向你", cat:"电视剧", year:"2023", score:8.0, tags:["甜宠","青春"], desc:"猫的树执导，校园青春甜宠。", plats:["优酷"] },
+  { title:"如此可爱的我们", cat:"电视剧", year:"2020", score:8.2, tags:["甜宠","青春"], desc:"李明德、田曦薇主演，90年代校园。", plats:["爱奇艺"] },
+  { title:"风犬少年的天空", cat:"电视剧", year:"2020", score:8.0, tags:["青春","搞笑"], desc:"张婧仪、彭昱畅主演，重庆少年青春。", plats:["哔哩哔哩"] },
+  { title:"最好的我们", cat:"电视剧", year:"2016", score:8.9, tags:["青春","甜宠"], desc:"刘昊然、谭松韵主演，耿耿余淮。", plats:["爱奇艺"] },
+  { title:"你好旧时光", cat:"电视剧", year:"2017", score:8.7, tags:["青春","治愈"], desc:"李兰迪主演，余周周的青春。", plats:["爱奇艺"] },
+  { title:"致我们单纯的小美好", cat:"电视剧", year:"2017", score:7.5, tags:["甜宠","青春"], desc:"胡一天、沈月主演，青梅竹马。", plats:["腾讯视频"] },
+  { title:"周生如故", cat:"电视剧", year:"2021", score:7.7, tags:["古装","虐恋"], desc:"任嘉伦、白鹿主演，小南辰王悲剧。", plats:["爱奇艺"] },
+  { title:"东宫", cat:"电视剧", year:"2019", score:7.4, tags:["古装","虐恋"], desc:"彭小苒、陈星旭主演，西州九公主。", plats:["腾讯视频","优酷"] },
+  { title:"香蜜沉沉烬如霜", cat:"电视剧", year:"2018", score:7.8, tags:["古装","仙侠"], desc:"杨紫、邓伦主演，锦觅旭凤仙侠。", plats:["爱奇艺","腾讯视频"] },
+  { title:"琉璃", cat:"电视剧", year:"2020", score:7.5, tags:["古装","仙侠"], desc:"成毅、袁冰妍主演，褚璇玑六识。", plats:["优酷","芒果TV"] },
+  { title:"星落凝成糖", cat:"电视剧", year:"2023", score:7.3, tags:["古装","仙侠"], desc:"李兰迪、陈星旭主演，错嫁神话。", plats:["腾讯视频","爱奇艺"] },
+  { title:"长月烬明", cat:"电视剧", year:"2023", score:6.6, tags:["古装","仙侠"], desc:"罗云熙、白鹿主演，澹台烬黎苏苏。", plats:["优酷"] },
+  { title:"护心", cat:"电视剧", year:"2023", score:7.2, tags:["古装","玄幻"], desc:"侯明昊、周也主演，天曜雁回。", plats:["优酷"] },
+  { title:"甄嬛传", cat:"电视剧", year:"2011", score:9.3, tags:["古装","宫斗"], desc:"孙俪，宫斗天花板。", plats:["优酷"] },
+  { title:"如懿传", cat:"电视剧", year:"2018", score:7.5, tags:["古装","宫斗"], desc:"周迅霍建华，弘历如懿。", plats:["腾讯视频"] },
+  { title:"延禧攻略", cat:"电视剧", year:"2018", score:7.1, tags:["古装","宫斗"], desc:"吴谨言聂远，魏璎珞。", plats:["爱奇艺"] },
+  { title:"美人心计", cat:"电视剧", year:"2010", score:7.9, tags:["古装","宫斗"], desc:"林心如窦漪房。", plats:["腾讯视频","爱奇艺"] },
+  { title:"金枝欲孽", cat:"电视剧", year:"2004", score:9.0, tags:["古装","宫斗"], desc:"TVB宫斗鼻祖。", plats:["埋堆堆"] },
+  { title:"伪装者", cat:"电视剧", year:"2015", score:8.6, tags:["悬疑","谍战","动作"], desc:"胡歌靳东王凯。", plats:["腾讯视频","芒果TV"] },
+  { title:"琅琊榜", cat:"电视剧", year:"2015", score:9.4, tags:["古装","权谋"], desc:"胡歌梅长苏。", plats:["腾讯视频","爱奇艺"] },
 
   { title:"流浪地球2", cat:"电影", year:"2023", score:8.3, tags:["科幻","动作"], desc:"吴京、刘德华主演，硬核科幻灾难史诗。", plats:["腾讯视频","爱奇艺"] },
   { title:"长安三万里", cat:"电影", year:"2023", score:8.0, tags:["古装","治愈"], desc:"追光动画，唐诗与盛唐诗人的浪漫长卷。", plats:["腾讯视频","B站"] },
   { title:"满江红", cat:"电影", year:"2023", score:7.0, tags:["古装","悬疑"], desc:"张艺谋执导，沈腾、易烊千玺主演悬疑喜剧。", plats:["爱奇艺"] },
   { title:"热辣滚烫", cat:"电影", year:"2024", score:7.8, tags:["治愈","搞笑"], desc:"贾玲自导自演，为自己而活的瘦身逆袭。", plats:["腾讯视频"] },
-  { title:"封神第一部", cat:"电影", year:"2023", score:7.8, tags:["古装","动作"], desc:"费翔、李雪健主演，殷商神话史诗。", plats:["腾讯视频"] },
+  { title:"封神第一部", cat:"电影", year:"2023", score:7.8, tags:["古装","动作","神话"], desc:"费翔、李雪健主演，殷商神话史诗。", plats:["腾讯视频"] },
   { title:"孤注一掷", cat:"电影", year:"2023", score:6.9, tags:["犯罪","动作"], desc:"张艺兴、金晨主演，反诈题材。", plats:["爱奇艺"] },
   { title:"消失的她", cat:"电影", year:"2023", score:6.4, tags:["悬疑","犯罪"], desc:"朱一龙主演，悬疑反转力作。", plats:["腾讯视频"] },
   { title:"你好李焕英", cat:"电影", year:"2021", score:7.7, tags:["治愈","搞笑"], desc:"贾玲执导，穿越时空的母女深情。", plats:["腾讯视频"] },
+  { title:"我不是药神", cat:"电影", year:"2018", score:9.0, tags:["剧情","现实"], desc:"徐峥主演，格列宁代购改编。", plats:["腾讯视频","爱奇艺"] },
+  { title:"流浪地球", cat:"电影", year:"2019", score:7.9, tags:["科幻","动作"], desc:"吴京主演，刘慈欣改编。", plats:["腾讯视频","爱奇艺"] },
+  { title:"战狼2", cat:"电影", year:"2017", score:7.1, tags:["动作","战争"], desc:"吴京自导自演，冷锋非洲。", plats:["腾讯视频","爱奇艺"] },
+  { title:"哪吒之魔童降世", cat:"电影", year:"2019", score:8.4, tags:["动画","神话"], desc:"饺子执导，我命由我不由天。", plats:["腾讯视频","爱奇艺"] },
+  { title:"哪吒之魔童闹海", cat:"电影", year:"2025", score:8.5, tags:["动画","神话","动作"], desc:"哪吒续集，票房奇迹。", plats:["腾讯视频","爱奇艺"] },
+  { title:"姜子牙", cat:"电影", year:"2020", score:6.6, tags:["动画","神话"], desc:"哪吒同宇宙，姜子牙封神。", plats:["腾讯视频","爱奇艺"] },
+  { title:"西游记之大圣归来", cat:"电影", year:"2015", score:8.3, tags:["动画","神话"], desc:"国漫崛起之作，江流儿悟空。", plats:["哔哩哔哩","腾讯视频"] },
+  { title:"大鱼海棠", cat:"电影", year:"2016", score:6.7, tags:["动画","奇幻"], desc:"梁旋张春，国风奇幻。", plats:["哔哩哔哩","腾讯视频"] },
+  { title:"大护法", cat:"电影", year:"2017", score:7.8, tags:["动画","暗黑"], desc:"不思凡，成人向国漫。", plats:["哔哩哔哩","腾讯视频"] },
+  { title:"罗小黑战记", cat:"电影", year:"2019", score:8.0, tags:["动画","治愈"], desc:"MTJJ，治愈系国漫电影。", plats:["哔哩哔哩","腾讯视频"] },
+  { title:"活着", cat:"电影", year:"1994", score:9.3, tags:["剧情","经典"], desc:"张艺谋执导，葛优巩俐。", plats:["腾讯视频","爱奇艺"] },
+  { title:"霸王别姬", cat:"电影", year:"1993", score:9.6, tags:["剧情","经典"], desc:"陈凯歌执导，张国荣张丰毅。", plats:["腾讯视频","爱奇艺"] },
+  { title:"让子弹飞", cat:"电影", year:"2010", score:9.0, tags:["剧情","动作","搞笑"], desc:"姜文执导，麻匪张牧之。", plats:["腾讯视频","爱奇艺"] },
+  { title:"鬼子来了", cat:"电影", year:"2000", score:9.3, tags:["剧情","战争"], desc:"姜文执导，黑白神作。", plats:["腾讯视频","哔哩哔哩"] },
+  { title:"长津湖", cat:"电影", year:"2021", score:7.5, tags:["动作","战争"], desc:"吴京易烊千玺，抗美援朝。", plats:["腾讯视频","爱奇艺"] },
+  { title:"长津湖之水门桥", cat:"电影", year:"2022", score:7.3, tags:["动作","战争"], desc:"七连炸毁水门桥。", plats:["腾讯视频","爱奇艺"] },
+  { title:"万里归途", cat:"电影", year:"2022", score:7.4, tags:["剧情","动作"], desc:"张译主演，外交撤侨。", plats:["腾讯视频","爱奇艺"] },
+  { title:"奇迹 笨小孩", cat:"电影", year:"2022", score:7.5, tags:["剧情","励志"], desc:"易烊千玺主演，深圳创业。", plats:["腾讯视频","爱奇艺"] },
+  { title:"人生大事", cat:"电影", year:"2022", score:7.6, tags:["剧情","治愈"], desc:"朱一龙主演，殡葬师与孤儿。", plats:["腾讯视频","爱奇艺"] },
+  { title:"隐入尘烟", cat:"电影", year:"2022", score:8.4, tags:["剧情","文艺"], desc:"李睿珺执导，西北农村。", plats:["腾讯视频","爱奇艺"] },
+  { title:"宇宙探索编辑部", cat:"电影", year:"2023", score:8.1, tags:["科幻","文艺","搞笑"], desc:"孔大山执导，伪科幻公路片。", plats:["哔哩哔哩","腾讯视频"] },
+  { title:"河边的错误", cat:"电影", year:"2023", score:7.3, tags:["悬疑","文艺"], desc:"朱一龙主演，余华改编。", plats:["腾讯视频","爱奇艺"] },
+  { title:"狗阵", cat:"电影", year:"2024", score:7.6, tags:["剧情","西部"], desc:"管虎执导，彭于晏西北。", plats:["腾讯视频","爱奇艺"] },
+  { title:"走走停停", cat:"电影", year:"2024", score:7.7, tags:["剧情","搞笑"], desc:"胡歌高圆圆，回乡中年。", plats:["腾讯视频","爱奇艺"] },
+  { title:"好东西", cat:"电影", year:"2024", score:8.8, tags:["剧情","搞笑"], desc:"邵艺辉执导，宋佳钟楚曦。", plats:["腾讯视频","爱奇艺"] },
+  { title:"三大队", cat:"电影", year:"2023", score:7.6, tags:["犯罪","剧情"], desc:"张译主演，退休警察追凶。", plats:["腾讯视频","爱奇艺"] },
+  { title:"涉过愤怒的海", cat:"电影", year:"2023", score:7.1, tags:["犯罪","悬疑"], desc:"黄渤、周迅主演，女儿之死。", plats:["腾讯视频","爱奇艺"] },
+  { title:"默杀", cat:"电影", year:"2024", score:6.3, tags:["犯罪","悬疑"], desc:"张钧甯主演，校园暴力悬疑。", plats:["爱奇艺","腾讯视频"] },
+  { title:"唐探1900", cat:"电影", year:"2025", score:7.2, tags:["悬疑","搞笑"], desc:"王宝强、刘昊然回归，唐人街探案前传。", plats:["腾讯视频","爱奇艺"] },
+  { title:"扬名立万", cat:"电影", year:"2021", score:7.4, tags:["悬疑","搞笑"], desc:"尹正、邓家佳主演，剧本杀电影。", plats:["爱奇艺","腾讯视频"] },
+  { title:"悬崖之上", cat:"电影", year:"2021", score:7.4, tags:["悬疑","谍战"], desc:"张艺谋执导，张译于和伟。", plats:["腾讯视频","爱奇艺"] },
+  { title:"坚如磐石", cat:"电影", year:"2023", score:6.1, tags:["犯罪","动作"], desc:"张艺谋执导，雷佳音张国立。", plats:["腾讯视频","爱奇艺"] },
+  { title:"第二十条", cat:"电影", year:"2024", score:7.5, tags:["剧情","现实"], desc:"张艺谋执导，雷佳音马丽。", plats:["腾讯视频","爱奇艺"] },
+  { title:"影", cat:"电影", year:"2018", score:7.2, tags:["古装","动作"], desc:"张艺谋执导，邓超孙俪。", plats:["腾讯视频","爱奇艺"] },
+  { title:"赤壁", cat:"电影", year:"2008", score:6.4, tags:["古装","战争"], desc:"吴宇森执导，梁朝伟金城武。", plats:["腾讯视频","爱奇艺"] },
+  { title:"白蛇缘起", cat:"电影", year:"2019", score:7.9, tags:["动画","古装","爱情"], desc:"追光动画，小白许仙前传。", plats:["腾讯视频","爱奇艺"] },
+  { title:"白蛇2青蛇劫起", cat:"电影", year:"2021", score:6.8, tags:["动画","奇幻"], desc:"追光动画，小青现代都市。", plats:["腾讯视频","爱奇艺"] },
+  { title:"新神榜 哪吒重生", cat:"电影", year:"2021", score:7.4, tags:["动画","动作","科幻"], desc:"追光动画，赛博朋克哪吒。", plats:["腾讯视频","爱奇艺"] },
+  { title:"新神榜 杨戬", cat:"电影", year:"2022", score:7.0, tags:["动画","动作","神话"], desc:"追光动画，杨戬劈山救母。", plats:["腾讯视频","爱奇艺"] },
+  { title:"雄狮少年", cat:"电影", year:"2021", score:8.3, tags:["动画","励志","动作"], desc:"舞狮少年，国漫热血。", plats:["哔哩哔哩","腾讯视频"] },
 
   { title:"荒野求生", cat:"综艺", year:"2024", score:7.5, tags:["搞笑","动作"], desc:"明星野外生存挑战，真实又好笑。", plats:["腾讯视频"] },
   { title:"向往的生活", cat:"综艺", year:"2023", score:8.1, tags:["治愈"], desc:"何炅、黄磊等在乡村慢生活综艺。", plats:["湖南卫视","芒果TV"] },
   { title:"一年一度喜剧大赛", cat:"综艺", year:"2023", score:8.7, tags:["搞笑"], desc:"原创喜剧竞演，笑点密集。", plats:["爱奇艺"] },
-  { title:"中国说唱巅峰对决", cat:"综艺", year:"2023", score:7.3, tags:["动作"], desc:"华语说唱强者对决舞台。", plats:["爱奇艺"] },
-  { title:"乘风2024", cat:"综艺", year:"2024", score:6.5, tags:["治愈"], desc:"姐姐们的舞台竞演。", plats:["芒果TV"] },
-  { title:"奔跑吧", cat:"综艺", year:"2024", score:6.8, tags:["搞笑","动作"], desc:"户外竞技真人秀。", plats:["浙江卫视","腾讯视频"] },
   { title:"脱口秀和Ta的朋友", cat:"综艺", year:"2023", score:7.6, tags:["搞笑"], desc:"脱口秀演员的爆笑对决。", plats:["腾讯视频"] },
+  { title:"吐槽大会", cat:"综艺", year:"2024", score:7.0, tags:["搞笑"], desc:"脱口秀吐槽明星。", plats:["腾讯视频"] },
+  { title:"奇葩说", cat:"综艺", year:"2023", score:7.3, tags:["搞笑","辩论"], desc:"马东蔡康永，辩论综艺。", plats:["爱奇艺"] },
+  { title:"圆桌派", cat:"综艺", year:"2024", score:9.0, tags:["治愈","谈话"], desc:"窦文涛聊天节目。", plats:["优酷"] },
+  { title:"十三邀", cat:"综艺", year:"2024", score:8.8, tags:["谈话","人文"], desc:"许知远访谈。", plats:["腾讯视频"] },
+  { title:"非正式会谈", cat:"综艺", year:"2024", score:8.5, tags:["搞笑","文化"], desc:"外国嘉宾文化对谈。", plats:["哔哩哔哩"] },
+  { title:"脱口秀大会 第三季", cat:"综艺", year:"2020", score:7.9, tags:["搞笑"], desc:"李雪琴杨笠出圈。", plats:["腾讯视频"] },
+  { title:"哈哈哈哈哈", cat:"综艺", year:"2024", score:7.5, tags:["搞笑","旅行"], desc:"邓超陈赫鹿晗旅行。", plats:["腾讯视频"] },
+  { title:"极限挑战 第三季", cat:"综艺", year:"2017", score:9.3, tags:["搞笑","动作"], desc:"鸡条巅峰季。", plats:["爱奇艺","腾讯视频"] },
+  { title:"奔跑吧兄弟", cat:"综艺", year:"2014", score:7.5, tags:["搞笑","动作"], desc:"Angelababy邓超。", plats:["爱奇艺","腾讯视频"] },
+  { title:"中餐厅", cat:"综艺", year:"2024", score:6.5, tags:["治愈","美食"], desc:"黄晓明，海外中餐厅。", plats:["湖南卫视","芒果TV"] },
+  { title:"亲爱的客栈", cat:"综艺", year:"2017", score:6.8, tags:["治愈","经营"], desc:"刘涛王珂经营客栈。", plats:["湖南卫视","芒果TV"] },
+  { title:"你好生活", cat:"综艺", year:"2024", score:8.5, tags:["治愈","人文"], desc:"央视主持人慢综艺。", plats:["央视网","腾讯视频"] },
+  { title:"朗读者", cat:"综艺", year:"2024", score:8.8, tags:["治愈","人文"], desc:"董卿主持，朗读节目。", plats:["央视网","腾讯视频"] },
+  { title:"见字如面", cat:"综艺", year:"2024", score:8.7, tags:["治愈","人文"], desc:"张涵予归亚蕾读信。", plats:["腾讯视频","黑龙江卫视"] },
+  { title:"国家宝藏", cat:"综艺", year:"2024", score:9.0, tags:["治愈","历史"], desc:"故宫博物院文物。", plats:["央视网","腾讯视频"] },
+  { title:"典籍里的中国", cat:"综艺", year:"2024", score:8.9, tags:["治愈","历史"], desc:"央视，典籍戏剧化。", plats:["央视网","腾讯视频"] },
+  { title:"中国诗词大会", cat:"综艺", year:"2024", score:8.7, tags:["治愈","文化"], desc:"董卿主持诗词竞演。", plats:["央视网","腾讯视频"] },
 
-  { title:"三体", cat:"动漫", year:"2022", score:8.6, tags:["科幻","悬疑"], desc:"艺画开天改编，科幻动画神作。", plats:["腾讯视频"] },
+  { title:"三体 动漫", cat:"动漫", year:"2022", score:8.6, tags:["科幻","悬疑"], desc:"艺画开天改编，科幻动画神作。", plats:["腾讯视频"] },
   { title:"雾山五行", cat:"动漫", year:"2023", score:8.8, tags:["古装","动作"], desc:"国风水墨打斗，极致视觉。", plats:["B站"] },
   { title:"中国奇谭", cat:"动漫", year:"2023", score:8.9, tags:["治愈","古装"], desc:"上海美术电影制片厂出品，中式奇幻短篇集。", plats:["B站"] },
   { title:"深海", cat:"动漫", year:"2023", score:7.5, tags:["科幻","治愈"], desc:"田晓鹏执导，粒子水墨动画电影。", plats:["腾讯视频"] },
@@ -283,15 +407,88 @@ const SHOWS = [
   { title:"遮天", cat:"动漫", year:"2023", score:7.6, tags:["玄幻","动作"], desc:"辰东同名小说改编，九龙拉棺开启荒古。", plats:["腾讯视频"] },
   { title:"吞噬星空", cat:"动漫", year:"2020", score:8.0, tags:["科幻","动作"], desc:"我吃西红柿同名小说改编，未来科幻国漫。", plats:["腾讯视频"] },
   { title:"剑来", cat:"动漫", year:"2024", score:7.4, tags:["古装","玄幻"], desc:"烽火戏诸侯同名小说改编，大千世界剑道。", plats:["B站"] },
-  { title:"灵笼", cat:"动漫", year:"2019", score:8.3, tags:["科幻","动作"], desc:"艺画开天作品，末世废土科幻动画。", plats:["B站"] }
+  { title:"灵笼", cat:"动漫", year:"2019", score:8.3, tags:["科幻","动作"], desc:"艺画开天作品，末世废土科幻动画。", plats:["B站"] },
+  { title:"鬼灭之刃", cat:"动漫", year:"2019", score:9.1, tags:["热血","动作"], desc:"灶门炭治郎杀鬼。", plats:["哔哩哔哩"] },
+  { title:"进击的巨人", cat:"动漫", year:"2013", score:9.5, tags:["热血","黑暗"], desc:"艾伦调查兵团。", plats:["哔哩哔哩"] },
+  { title:"海贼王", cat:"动漫", year:"1999", score:9.1, tags:["热血","动作","冒险"], desc:"路飞航海王。", plats:["哔哩哔哩","爱奇艺"] },
+  { title:"火影忍者", cat:"动漫", year:"2002", score:9.0, tags:["热血","动作","冒险"], desc:"鸣人成长。", plats:["哔哩哔哩","腾讯视频"] },
+  { title:"灌篮高手", cat:"动漫", year:"1993", score:9.6, tags:["热血","运动"], desc:"樱木花道湘北。", plats:["哔哩哔哩","腾讯视频"] },
+  { title:"名侦探柯南", cat:"动漫", year:"1996", score:9.2, tags:["推理","悬疑"], desc:"江户川柯南。", plats:["哔哩哔哩","爱奇艺"] },
+  { title:"蜡笔小新", cat:"动漫", year:"1992", score:9.1, tags:["搞笑","治愈"], desc:"野原新之助。", plats:["哔哩哔哩","爱奇艺"] },
+  { title:"哆啦A梦", cat:"动漫", year:"1979", score:9.5, tags:["治愈","搞笑"], desc:"机器猫大雄。", plats:["哔哩哔哩","爱奇艺"] },
+  { title:"夏目友人帐", cat:"动漫", year:"2008", score:9.4, tags:["治愈","妖怪"], desc:"夏目贵志与妖怪。", plats:["哔哩哔哩"] },
+  { title:"龙猫", cat:"电影", year:"1988", score:9.2, tags:["动画","治愈"], desc:"宫崎骏执导。", plats:["哔哩哔哩","腾讯视频"] },
+  { title:"千与千寻", cat:"电影", year:"2001", score:9.4, tags:["动画","奇幻"], desc:"宫崎骏，千寻神隐。", plats:["哔哩哔哩","腾讯视频"] },
+  { title:"哈尔的移动城堡", cat:"电影", year:"2004", score:9.1, tags:["动画","奇幻"], desc:"宫崎骏，哈尔苏菲。", plats:["哔哩哔哩","腾讯视频"] },
+  { title:"幽灵公主", cat:"电影", year:"1997", score:8.9, tags:["动画","奇幻"], desc:"宫崎骏，珊阿席达卡。", plats:["哔哩哔哩","腾讯视频"] },
+  { title:"起风了", cat:"电影", year:"2013", score:8.5, tags:["动画","爱情"], desc:"宫崎骏，堀越二郎。", plats:["哔哩哔哩","腾讯视频"] },
+  { title:"崖上的波妞", cat:"电影", year:"2008", score:8.6, tags:["动画","治愈"], desc:"宫崎骏，波妞宗介。", plats:["哔哩哔哩","腾讯视频"] },
+  { title:"天空之城", cat:"电影", year:"1986", score:9.1, tags:["动画","奇幻"], desc:"宫崎骏，希达巴斯。", plats:["哔哩哔哩","腾讯视频"] },
+  { title:"风之谷", cat:"电影", year:"1984", score:8.9, tags:["动画","奇幻"], desc:"宫崎骏，娜乌西卡。", plats:["哔哩哔哩","腾讯视频"] },
+  { title:"魔女宅急便", cat:"电影", year:"1989", score:8.6, tags:["动画","治愈"], desc:"宫崎骏，琪琪。", plats:["哔哩哔哩","腾讯视频"] },
+  { title:"红猪", cat:"电影", year:"1992", score:8.7, tags:["动画","动作","冒险"], desc:"宫崎骏，波鲁克。", plats:["哔哩哔哩","腾讯视频"] },
+  { title:"侧耳倾听", cat:"电影", year:"1995", score:8.9, tags:["动画","青春","爱情"], desc:"近藤喜文执导。", plats:["哔哩哔哩","腾讯视频"] },
+  { title:"你的名字。", cat:"电影", year:"2016", score:8.5, tags:["动画","爱情","奇幻"], desc:"新海诚执导。", plats:["哔哩哔哩","腾讯视频"] },
+  { title:"天气之子", cat:"电影", year:"2019", score:7.0, tags:["动画","爱情","奇幻"], desc:"新海诚。", plats:["哔哩哔哩","腾讯视频"] },
+  { title:"铃芽之旅", cat:"电影", year:"2022", score:7.3, tags:["动画","爱情","奇幻"], desc:"新海诚。", plats:["哔哩哔哩","腾讯视频"] },
+  { title:"秒速五厘米", cat:"电影", year:"2007", score:8.4, tags:["动画","爱情"], desc:"新海诚。", plats:["哔哩哔哩","腾讯视频"] },
+  { title:"言叶之庭", cat:"电影", year:"2013", score:8.3, tags:["动画","爱情"], desc:"新海诚。", plats:["哔哩哔哩","腾讯视频"] },
+  { title:"萤火之森", cat:"电影", year:"2011", score:8.9, tags:["动画","治愈","妖怪"], desc:"绿川幸。", plats:["哔哩哔哩"] },
+  { title:"紫罗兰永恒花园", cat:"动漫", year:"2018", score:9.0, tags:["动画","治愈"], desc:"京阿尼，薇尔莉特。", plats:["哔哩哔哩"] },
+  { title:"四月是你的谎言", cat:"动漫", year:"2014", score:9.0, tags:["动画","音乐","爱情"], desc:"宫园薰有马公生。", plats:["哔哩哔哩"] },
+  { title:"未闻花名", cat:"动漫", year:"2011", score:8.8, tags:["动画","治愈","催泪"], desc:"面码，那朵花。", plats:["哔哩哔哩"] },
+  { title:"CLANNAD", cat:"动漫", year:"2007", score:9.0, tags:["动画","治愈"], desc:"Key社催泪神作。", plats:["哔哩哔哩"] },
+  { title:"龙与虎", cat:"动漫", year:"2008", score:8.9, tags:["动画","爱情","搞笑"], desc:"逢坂大河高须龙儿。", plats:["哔哩哔哩"] },
+  { title:"物语系列", cat:"动漫", year:"2009", score:8.8, tags:["动画","怪异"], desc:"西尾维新，阿良良木历。", plats:["哔哩哔哩"] },
+  { title:"魔法少女小圆", cat:"动漫", year:"2011", score:8.8, tags:["动画","暗黑"], desc:"虚渊玄，新房昭之。", plats:["哔哩哔哩"] },
+  { title:"命运石之门", cat:"动漫", year:"2011", score:9.3, tags:["动画","科幻"], desc:"冈部伦太郎。", plats:["哔哩哔哩"] },
+  { title:"无头骑士异闻录", cat:"动漫", year:"2010", score:8.6, tags:["动画","群像"], desc:"池袋，塞尔提。", plats:["哔哩哔哩"] },
+  { title:"永生之酒", cat:"动漫", year:"2007", score:8.8, tags:["动画","群像"], desc:"成田良悟。", plats:["哔哩哔哩"] },
+  { title:"钢之炼金术师FA", cat:"动漫", year:"2009", score:9.5, tags:["动画","热血","动作"], desc:"FA版神作。", plats:["哔哩哔哩"] },
+  { title:"银之匙", cat:"动漫", year:"2013", score:8.7, tags:["动画","治愈"], desc:"荒川弘，农业高中。", plats:["哔哩哔哩"] },
+  { title:"元气囝仔", cat:"动漫", year:"2014", score:9.1, tags:["动画","治愈"], desc:"书法家岛上生活。", plats:["哔哩哔哩"] },
+  { title:"白兔糖", cat:"动漫", year:"2011", score:8.8, tags:["动画","治愈"], desc:"河地大吉照顾鹿贺凛。", plats:["哔哩哔哩"] },
+  { title:"排球少年", cat:"动漫", year:"2014", score:9.0, tags:["动画","热血","运动"], desc:"日向翔阳。", plats:["哔哩哔哩"] },
+  { title:"强风吹拂", cat:"动漫", year:"2018", score:9.3, tags:["动画","运动","治愈"], desc:"箱根驿传。", plats:["哔哩哔哩"] },
+  { title:"乒乓", cat:"动漫", year:"2014", score:9.4, tags:["动画","运动"], desc:"汤浅政明。", plats:["哔哩哔哩"] },
+  { title:"灌篮高手 电影版", cat:"电影", year:"2022", score:8.9, tags:["动画","运动","热血"], desc:"湘北全国大赛。", plats:["哔哩哔哩","腾讯视频"] },
+  { title:"鬼灭之刃 无限列车篇", cat:"电影", year:"2020", score:8.5, tags:["动画","热血","动作"], desc:"炼狱杏寿郎。", plats:["哔哩哔哩"] },
+  { title:"鬼灭之刃 游郭篇", cat:"动漫", year:"2021", score:9.2, tags:["动画","热血","动作"], desc:"炭治郎音柱。", plats:["哔哩哔哩"] },
+  { title:"鬼灭之刃 刀匠村篇", cat:"动漫", year:"2023", score:9.1, tags:["动画","热血","动作"], desc:"缘无一继。", plats:["哔哩哔哩"] },
+  { title:"我的英雄学院", cat:"动漫", year:"2016", score:7.5, tags:["动画","热血","动作"], desc:"绿谷出久。", plats:["哔哩哔哩"] },
+  { title:"工作细胞", cat:"动漫", year:"2018", score:8.9, tags:["治愈","科普"], desc:"红细胞白细胞拟人化。", plats:["哔哩哔哩"] },
+
+  { title:"舌尖上的中国", cat:"纪录片", year:"2012", score:9.4, tags:["治愈","美食"], desc:"陈晓卿执导，中国美食。", plats:["哔哩哔哩","腾讯视频"] },
+  { title:"人生一串", cat:"纪录片", year:"2018", score:8.9, tags:["治愈","美食"], desc:"烧烤纪录片。", plats:["哔哩哔哩"] },
+  { title:"风味人间", cat:"纪录片", year:"2018", score:9.0, tags:["治愈","美食"], desc:"陈晓卿，世界美食。", plats:["腾讯视频"] },
+  { title:"航拍中国", cat:"纪录片", year:"2017", score:9.2, tags:["治愈","风景"], desc:"央视航拍中国。", plats:["央视网","哔哩哔哩"] },
+  { title:"如果国宝会说话", cat:"纪录片", year:"2018", score:9.4, tags:["治愈","历史"], desc:"5分钟国宝短片。", plats:["央视网","哔哩哔哩"] },
+  { title:"我在故宫修文物", cat:"纪录片", year:"2016", score:9.4, tags:["治愈","人文"], desc:"故宫文物修复师。", plats:["哔哩哔哩","腾讯视频"] },
+  { title:"河西走廊", cat:"纪录片", year:"2015", score:9.6, tags:["治愈","历史"], desc:"甘肃河西走廊历史。", plats:["哔哩哔哩","央视网"] },
+  { title:"大明宫", cat:"纪录片", year:"2009", score:9.0, tags:["治愈","历史"], desc:"唐代大明宫。", plats:["哔哩哔哩","央视网"] },
+  { title:"圆明园", cat:"纪录片", year:"2006", score:8.8, tags:["治愈","历史"], desc:"圆明园兴衰。", plats:["哔哩哔哩","央视网"] },
+  { title:"故宫", cat:"纪录片", year:"2005", score:9.1, tags:["治愈","历史"], desc:"紫禁城百年。", plats:["哔哩哔哩","央视网"] },
+  { title:"大国崛起", cat:"纪录片", year:"2006", score:8.9, tags:["治愈","历史"], desc:"九大国崛起。", plats:["央视网","哔哩哔哩"] },
+  { title:"中国", cat:"纪录片", year:"2017", score:8.5, tags:["治愈","历史"], desc:"国家级历史纪录片。", plats:["央视网","哔哩哔哩"] },
+  { title:"第三极", cat:"纪录片", year:"2015", score:8.9, tags:["治愈","风景"], desc:"西藏高原。", plats:["哔哩哔哩","央视网"] },
+  { title:"舌尖上的中国2", cat:"纪录片", year:"2014", score:8.7, tags:["治愈","美食"], desc:"舌尖续集。", plats:["哔哩哔哩","腾讯视频"] },
+  { title:"风味人间2", cat:"纪录片", year:"2020", score:9.1, tags:["治愈","美食"], desc:"陈晓卿续集。", plats:["腾讯视频"] },
+  { title:"人生一串2", cat:"纪录片", year:"2019", score:8.8, tags:["治愈","美食"], desc:"烧烤续集。", plats:["哔哩哔哩"] },
+  { title:"早餐中国", cat:"纪录片", year:"2019", score:8.5, tags:["治愈","美食"], desc:"各地早餐。", plats:["哔哩哔哩","腾讯视频"] },
+  { title:"水果传", cat:"纪录片", year:"2018", score:8.5, tags:["治愈","美食"], desc:"水果纪录片。", plats:["哔哩哔哩","腾讯视频"] },
+  { title:"本草中国", cat:"纪录片", year:"2016", score:8.5, tags:["治愈","中医"], desc:"中药文化。", plats:["哔哩哔哩","腾讯视频"] },
+  { title:"但是还有书籍", cat:"纪录片", year:"2019", score:9.0, tags:["治愈","人文"], desc:"B站出品，书籍与读书人。", plats:["哔哩哔哩"] }
 ];
 
 const LISTS = [
-  { title:"悬疑烧脑 · 一口气看完", desc:"反转再反转，越看越上头", items:["漫长的季节","隐秘的角落","沉默的真相","开端","狂飙"] },
-  { title:"治愈解压 · 累了就看这个", desc:"慢节奏暖人心，看完松一口气", items:["去有风的地方","向往的生活","长安三万里","中国奇谭","你好李焕英"] },
-  { title:"国风华美 · 视觉盛宴", desc:"古装美学拉满，画面就是享受", items:["繁花","庆余年 第二季","雾山五行","长安三万里","凡人修仙传"] },
+  { title:"悬疑烧脑 · 一口气看完", desc:"反转再反转，越看越上头", items:["漫长的季节","隐秘的角落","沉默的真相","开端","狂飙","白夜追凶"] },
+  { title:"治愈解压 · 累了就看这个", desc:"慢节奏暖人心，看完松一口气", items:["去有风的地方","向往的生活","长安三万里","中国奇谭","你好李焕英","但是还有书籍"] },
+  { title:"国风华美 · 视觉盛宴", desc:"古装美学拉满，画面就是享受", items:["繁花","庆余年","雾山五行","长安三万里","凡人修仙传","琅琊榜"] },
   { title:"玄幻修仙 · 热血爽文", desc:"国漫玄幻长篇，追更停不下来", items:["斗罗大陆","斗破苍穹","完美世界","遮天","凡人修仙传","剑来"] },
-  { title:"科幻硬核 · 脑洞大开", desc:"硬核设定，看完久久回味", items:["三体","流浪地球2","深海","吞噬星空","灵笼"] }
+  { title:"科幻硬核 · 脑洞大开", desc:"硬核设定，看完久久回味", items:["三体","流浪地球2","深海","吞噬星空","灵笼","命运石之门"] },
+  { title:"经典老剧 · 百看不厌", desc:"童年回忆杀，重温还是好看", items:["西游记","红楼梦","三国演义","武林外传","亮剑","甄嬛传"] },
+  { title:"治愈系日漫 · 温暖人心", desc:"宫崎骏新海诚，温暖治愈", items:["千与千寻","龙猫","你的名字","夏目友人帐","CLANNAD","四月是你的谎言"] },
+  { title:"美食纪录片 · 深夜别点开", desc:"看饿了别怪我", items:["舌尖上的中国","人生一串","风味人间","早餐中国","水果传"] }
 ];
 
 const COMMENTS = [
@@ -304,7 +501,12 @@ const COMMENTS = [
   { user:"国漫崛起", avatar:"国", color:"#43e97b", date:"2026-09-02", text:"《雾山五行》打戏太炸了，国风水墨作画，每帧都是壁纸，三集根本不够看。", likes:145 },
   { user:"综艺咖", avatar:"综", color:"#fee140", date:"2026-08-28", text:"《一年一度喜剧大赛》每期都笑到肚子疼，胖达人的《进化论》我能看十遍。", likes:76 },
   { user:"新剧播报", avatar:"新", color:"#30cfd0", date:"2026-08-25", text:"群里每天有人安利新剧，再也不用怕剧荒了，已经从群里追了二十多部了。", likes:67 },
-  { user:"打工人追剧", avatar:"打", color:"#a8edea", date:"2026-08-20", text:"下班窝在沙发看剧太爽了，群友推荐的都是高分好剧，踩雷率极低。", likes:58 }
+  { user:"打工人追剧", avatar:"打", color:"#a8edea", date:"2026-08-20", text:"下班窝在沙发看剧太爽了，群友推荐的都是高分好剧，踩雷率极低。", likes:58 },
+  { user:"古装控", avatar:"古", color:"#e17055", date:"2026-09-16", text:"《莲花楼》成毅打戏太帅了，李莲花这个人设太戳了，看完久久走不出来。", likes:134 },
+  { user:"纪录片迷", avatar:"纪", color:"#00b894", date:"2026-09-13", text:"《但是还有书籍》太治愈了，看完立马去书店买了三本书，B站出品必属精品。", likes:82 },
+  { user:"日漫痴", avatar:"日", color:"#6c5ce7", date:"2026-09-11", text:"《强风吹拂》看哭了，箱根驿传那段太燃了，看完想去跑步。", likes:156 },
+  { user:"经典重温", avatar:"经", color:"#fd79a8", date:"2026-09-09", text:"重刷《武林外传》第八遍了，每集都能笑出来，同福客栈永远的神。", likes:198 },
+  { user:"美食爱好者", avatar:"美", color:"#e84393", date:"2026-09-06", text:"《人生一串》深夜看真的会饿，看完立马点了烧烤，这纪录片太害人了。", likes:112 }
 ];
 
 const PLATFORM_SEARCH = {
@@ -312,10 +514,13 @@ const PLATFORM_SEARCH = {
   "爱奇艺": q => `https://so.iqiyi.com/so?q=${encodeURIComponent(q)}`,
   "优酷": q => `https://so.youku.com/search_video/q_${encodeURIComponent(q)}`,
   "B站": q => `https://search.bilibili.com/all?keyword=${encodeURIComponent(q)}`,
+  "哔哩哔哩": q => `https://search.bilibili.com/all?keyword=${encodeURIComponent(q)}`,
   "芒果TV": q => `https://so.mgtv.com/so?k=${encodeURIComponent(q)}`,
   "湖南卫视": q => `https://so.mgtv.com/so?k=${encodeURIComponent(q)}`,
   "咪咕": q => `https://www.miguvideo.com/search/${encodeURIComponent(q)}`,
-  "浙江卫视": q => `https://www.zjstv.com/search?key=${encodeURIComponent(q)}`
+  "浙江卫视": q => `https://www.zjstv.com/search?key=${encodeURIComponent(q)}`,
+  "央视网": q => `https://search.cctv.com/search.php?qtext=${encodeURIComponent(q)}`,
+  "埋堆堆": q => `https://www.maiduipai.com/search?keyword=${encodeURIComponent(q)}`
 };
 
 const COLORS = [
@@ -337,6 +542,8 @@ function render() {
     const matchKw = !keyword || s.title.includes(keyword) || s.desc.includes(keyword);
     return matchCat && matchTag && matchKw;
   });
+
+  document.getElementById("countInfo").textContent = `共 ${list.length} 部推荐`;
 
   if (list.length === 0) {
     grid.innerHTML = '<div class="empty">没找到相关影片，换个关键词试试～<br>也可以加入群聊，让剧友帮你推荐。</div>';
