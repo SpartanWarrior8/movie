@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>剧荒救星 · 正版追剧推荐</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23ff3d6e'/%3E%3Ctext x='32' y='44' font-size='32' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold'%3E剧%3C/text%3E%3C/svg%3E">
+<meta name="description" content="正版追剧推荐，只展示影视信息并引导到腾讯、爱奇艺、优酷、B站等正版平台观看。剧荒有人推荐，看完有人一起聊。">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #f5f5f7; color: #1d1d1f; line-height: 1.6;
+  }
+  .hero {
+    background: linear-gradient(135deg, #ff6a3d 0%, #ff3d6e 100%);
+    color: #fff; padding: 44px 20px 40px; text-align: center;
+  }
+  .hero h1 { font-size: 30px; font-weight: 800; margin-bottom: 10px; }
+  .hero p { font-size: 15px; opacity: .92; max-width: 480px; margin: 0 auto; }
+  .hero .badges { margin-top: 16px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .hero .badge {
+    background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3);
+    padding: 4px 12px; border-radius: 999px; font-size: 13px;
+  }
+  .search-wrap { max-width: 640px; margin: -22px auto 0; padding: 0 20px; position: relative; z-index: 2; }
+  .search-box {
+    background: #fff; border-radius: 14px; box-shadow: 0 6px 24px rgba(0,0,0,.08);
+    display: flex; align-items: center; padding: 14px 18px;
+  }
+  .search-box input { flex: 1; border: none; outline: none; font-size: 16px; background: transparent; }
+  .search-box .icon { color: #999; margin-right: 10px; flex: 0 0 auto; display: flex; align-items: center; }
+  .search-box .icon svg { width: 18px; height: 18px; }
+
+  .top-cta { max-width: 900px; margin: 18px auto 0; padding: 0 20px; }
+  .top-cta-inner {
+    background: linear-gradient(135deg, #fff5f0, #fff0f3);
+    border: 1px solid #ffd0dc; border-radius: 14px;
+    padding: 16px 20px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  }
+  .top-cta-text { flex: 1; min-width: 180px; }
+  .top-cta-text .t1 { font-size: 16px; font-weight: 700; color: #ff3d6e; }
+  .top-cta-text .t2 { font-size: 13px; color: #888; margin-top: 2px; }
+  .top-cta-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+  .top-cta-btns a, .top-cta-btns button {
+    padding: 10px 22px; border-radius: 999px; font-size: 14px; font-weight: 600;
+    border: none; cursor: pointer; text-decoration: none;
+  }
+  .top-cta-btns .main { background: linear-gradient(135deg, #ff6a3d, #ff3d6e); color: #fff; }
+  .top-cta-btns .sub { background: #fff; color: #ff3d6e; border: 1px solid #ffb3c4; }
+
+  .section-title {
+    max-width: 900px; margin: 32px auto 12px; padding: 0 20px;
+    font-size: 18px; font-weight: 800; color: #1d1d1f;
+  }
+  .section-title span { color: #ff3d6e; font-size: 14px; font-weight: 500; }
+
+  .tabs {
+    max-width: 900px; margin: 0 auto; padding: 0 20px;
+    display: flex; gap: 10px; overflow-x: auto; -webkit-overflow-scrolling: touch;
+  }
+  .tab {
+    flex: 0 0 auto; padding: 8px 18px; border-radius: 999px; font-size: 14px;
+    background: #fff; color: #555; cursor: pointer; border: 1px solid #eee;
+    transition: all .2s; white-space: nowrap;
+  }
+  .tab.active { background: #ff3d6e; color: #fff; border-color: #ff3d6e; font-weight: 600; }
+
+  .tags {
+    max-width: 900px; margin: 10px auto 0; padding: 0 20px;
+    display: flex; gap: 8px; overflow-x: auto; flex-wrap: wrap;
+  }
+  .tag {
+    flex: 0 0 auto; padding: 5px 14px; border-radius: 999px; font-size: 12px;
+    background: #fff; color: #888; cursor: pointer; border: 1px solid #eee; white-space: nowrap;
+  }
+  .tag.active { background: #fff0f3; color: #ff3d6e; border-color: #ffb3c4; font-weight: 600; }
+
+  .grid {
+    max-width: 900px; margin: 16px auto 40px; padding: 0 20px;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px;
+  }
+  .card {
+    background: #fff; border-radius: 14px; overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,.05); display: flex; flex-direction: column;
+  }
+  .poster {
+    height: 120px; display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 20px; font-weight: 800; text-align: center; padding: 10px;
+    position: relative;
+  }
+  .score-badge {
+    position: absolute; top: 8px; right: 8px;
+    background: rgba(0,0,0,.55); color: #ffd060; font-size: 13px; font-weight: 700;
+    padding: 3px 8px; border-radius: 8px;
+  }
+  .card-body { padding: 14px; flex: 1; display: flex; flex-direction: column; }
+  .card-body .title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+  .card-body .meta { font-size: 12px; color: #999; margin-bottom: 6px; }
+  .card-body .desc { font-size: 13px; color: #666; flex: 1; margin-bottom: 10px; }
+  .card-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px; }
+  .card-tags .t { font-size: 11px; padding: 2px 8px; border-radius: 6px; background: #f0f0f3; color: #888; }
+  .platforms { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+  .plat { font-size: 11px; padding: 2px 8px; border-radius: 6px; background: #fff0f3; color: #ff3d6e; }
+  .watch-btn {
+    display: block; text-align: center; padding: 10px; border-radius: 10px;
+    background: linear-gradient(135deg, #ff6a3d, #ff3d6e); color: #fff;
+    text-decoration: none; font-size: 14px; font-weight: 600;
+  }
+  .empty { text-align: center; color: #999; padding: 60px 20px; grid-column: 1/-1; }
+
+  .lists { max-width: 900px; margin: 0 auto 40px; padding: 0 20px; }
+  .list-card {
+    background: #fff; border-radius: 14px; padding: 18px; margin-bottom: 14px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.05);
+  }
+  .list-card .lc-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+  .list-card .lc-desc { font-size: 13px; color: #888; margin-bottom: 10px; }
+  .list-card .lc-items { display: flex; gap: 8px; flex-wrap: wrap; }
+  .list-card .lc-item {
+    font-size: 12px; padding: 4px 10px; border-radius: 8px;
+    background: #f5f5f7; color: #555;
+  }
+
+  .comments { max-width: 900px; margin: 0 auto 40px; padding: 0 20px; }
+  .comment-item {
+    background: #fff; border-radius: 14px; padding: 16px; margin-bottom: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.05);
+  }
+  .comment-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 700; font-size: 14px; flex: 0 0 auto;
+  }
+  .comment-user { font-size: 14px; font-weight: 600; }
+  .comment-date { font-size: 12px; color: #aaa; margin-left: auto; }
+  .comment-text { font-size: 14px; color: #444; line-height: 1.6; }
+  .comment-likes { font-size: 12px; color: #aaa; margin-top: 8px; }
+
+  .cta {
+    background: linear-gradient(135deg, #ff6a3d 0%, #ff3d6e 100%);
+    color: #fff; text-align: center; padding: 40px 20px; margin-top: 20px;
+  }
+  .cta h2 { font-size: 22px; margin-bottom: 8px; }
+  .cta p { font-size: 14px; opacity: .9; margin-bottom: 20px; }
+  .cta .group-no { font-size: 28px; font-weight: 800; letter-spacing: 2px; margin-bottom: 16px; }
+  .cta .copy-btn {
+    display: inline-block; padding: 12px 36px; border-radius: 999px;
+    background: #fff; color: #ff3d6e; font-weight: 700; font-size: 15px;
+    border: none; cursor: pointer; text-decoration: none;
+  }
+  .cta .secondary-btn {
+    display: block; margin: 12px auto 0; padding: 10px 28px; border-radius: 999px;
+    background: rgba(255,255,255,.15); color: #fff; font-size: 14px; font-weight: 600;
+    border: 1px solid rgba(255,255,255,.4); cursor: pointer;
+  }
+  .footer { text-align: center; padding: 24px; font-size: 12px; color: #aaa; background: #f5f5f7; }
+  @media (max-width: 480px) {
+    .hero h1 { font-size: 24px; }
+    .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .poster { height: 100px; font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>剧荒救星 · 正版追剧推荐</h1>
+  <p>只展示影视信息，点"去观看"跳转腾讯、爱奇艺、优酷、B站等正版平台，安心追、不踩坑。</p>
+  <div class="badges">
+    <span class="badge">无盗版</span>
+    <span class="badge">正版平台</span>
+    <span class="badge">剧荒救星</span>
+  </div>
+</div>
+
+<div class="search-wrap">
+  <div class="search-box">
+    <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg></span>
+    <input type="text" id="searchInput" placeholder="搜剧名，比如：斗罗大陆 / 繁花 / 流浪地球">
+  </div>
+</div>
+
+<div class="top-cta">
+  <div class="top-cta-inner">
+    <div class="top-cta-text">
+      <div class="t1">追剧互助群 · 1101932942</div>
+      <div class="t2">新剧上线有人安利 · 剧荒有人推荐 · 看完一起聊 · 无红包纯交流</div>
+    </div>
+    <div class="top-cta-btns">
+      <a class="main" href="https://qun.qq.com/universal-share/share?ac=1&authKey=hIUenkjX0%2Brl87QQBvC4SCB1qHPzGy5ekyFWiVfGKQ1o1jODPEo3FEEKUnGfwFWT&busi_data=eyJncm91cENvZGUiOiIxMTAxOTMyOTQyIiwidG9rZW4iOiI5cnJhSFhtVEswTWlwVVpHbEx1TTVBMFpja082MzdtT0l2R3dZMlZmQk5rKzdnc0xoL21GbGpQNFJzNXd2bzl1IiwidWluIjoiMTc4NjA1MDI1MiJ9&data=9DCedU5qgSSJJpYCU4r15DDKa9_Z2HoI3AQiO7HDMHPXv6sslV5k5H448XcEwg14bTTzBcAtFSd8W42uJxHeJg&svctype=4&tempid=h5_group_info" target="_blank" rel="noopener">一键加群</a>
+      <button class="sub" onclick="copyGroup()">复制群号</button>
+    </div>
+  </div>
+</div>
+
+<div class="section-title">热门推荐 <span>按类型筛选</span></div>
+<div class="tabs" id="tabs">
+  <div class="tab active" data-cat="全部">全部</div>
+  <div class="tab" data-cat="电视剧">电视剧</div>
+  <div class="tab" data-cat="电影">电影</div>
+  <div class="tab" data-cat="综艺">综艺</div>
+  <div class="tab" data-cat="动漫">动漫</div>
+</div>
+
+<div class="tags" id="tags">
+  <div class="tag active" data-tag="全部">全部类型</div>
+  <div class="tag" data-tag="悬疑">悬疑</div>
+  <div class="tag" data-tag="古装">古装</div>
+  <div class="tag" data-tag="玄幻">玄幻</div>
+  <div class="tag" data-tag="科幻">科幻</div>
+  <div class="tag" data-tag="治愈">治愈</div>
+  <div class="tag" data-tag="甜宠">甜宠</div>
+  <div class="tag" data-tag="搞笑">搞笑</div>
+  <div class="tag" data-tag="动作">动作</div>
+  <div class="tag" data-tag="犯罪">犯罪</div>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<div class="section-title">剧荒片单 <span>按主题挑着看</span></div>
+<div class="lists" id="lists"></div>
+
+<div class="section-title">追剧讨论 <span>群友真实评价</span></div>
+<div class="comments" id="comments"></div>
+
+<div class="cta">
+  <h2>看完剧没人聊？</h2>
+  <p>正版追剧互助群 · 无红包 · 纯交流 · 新剧上线有人安利</p>
+  <div class="group-no">QQ群：1101932942</div>
+  <a class="copy-btn" href="https://qun.qq.com/universal-share/share?ac=1&authKey=hIUenkjX0%2Brl87QQBvC4SCB1qHPzGy5ekyFWiVfGKQ1o1jODPEo3FEEKUnGfwFWT&busi_data=eyJncm91cENvZGUiOiIxMTAxOTMyOTQyIiwidG9rZW4iOiI5cnJhSFhtVEswTWlwVVpHbEx1TTVBMFpja082MzdtT0l2R3dZMlZmQk5rKzdnc0xoL21GbGpQNFJzNXd2bzl1IiwidWluIjoiMTc4NjA1MDI1MiJ9&data=9DCedU5qgSSJJpYCU4r15DDKa9_Z2HoI3AQiO7HDMHPXv6sslV5k5H448XcEwg14bTTzBcAtFSd8W42uJxHeJg&svctype=4&tempid=h5_group_info" target="_blank" rel="noopener">一键加入 QQ 群</a>
+  <button class="secondary-btn" onclick="copyGroup()">复制群号 1101932942</button>
+</div>
+
+<div class="footer">
+  本站仅提供影视信息推荐，所有观看请前往正版平台 · 评分为示例参考 · 不存储任何视频资源
+</div>
+
+<script>
+const SHOWS = [
+  { title:"繁花", cat:"电视剧", year:"2023", score:8.7, tags:["古装","商战"], desc:"王家卫执导，胡歌主演，讲上海黄河路的商战与人生。", plats:["腾讯视频"] },
+  { title:"庆余年 第二季", cat:"电视剧", year:"2024", score:7.9, tags:["古装","搞笑"], desc:"张若昀主演，范闲继续在朝堂江湖间智斗周旋。", plats:["腾讯视频"] },
+  { title:"漫长的季节", cat:"电视剧", year:"2023", score:9.4, tags:["悬疑","犯罪"], desc:"范伟主演，北方小城横跨十八年的悬疑往事。", plats:["腾讯视频"] },
+  { title:"狂飙", cat:"电视剧", year:"2023", score:8.5, tags:["犯罪","动作"], desc:"张译、张颂文主演，扫黑除恶二十年风云。", plats:["爱奇艺"] },
+  { title:"三体", cat:"电视剧", year:"2023", score:8.7, tags:["科幻","悬疑"], desc:"张鲁一、于和伟主演，刘慈欣科幻巨制影视化。", plats:["腾讯视频","咪咕"] },
+  { title:"去有风的地方", cat:"电视剧", year:"2023", score:8.6, tags:["治愈","甜宠"], desc:"刘亦菲、李现主演，大理治愈系慢生活。", plats:["湖南卫视","芒果TV"] },
+  { title:"斗罗大陆 真人版", cat:"电视剧", year:"2021", score:6.4, tags:["玄幻","动作"], desc:"肖战、吴宣仪主演，唐家三少玄幻IP改编。", plats:["腾讯视频"] },
+  { title:"长相思", cat:"电视剧", year:"2023", score:7.8, tags:["古装","甜宠"], desc:"杨紫主演，大荒背景下的爱恨纠葛。", plats:["腾讯视频"] },
+  { title:"莲花楼", cat:"电视剧", year:"2023", score:8.5, tags:["古装","悬疑"], desc:"成毅主演，江湖探案武侠剧。", plats:["芒果TV"] },
+  { title:"梦华录", cat:"电视剧", year:"2022", score:7.9, tags:["古装","甜宠"], desc:"刘亦菲、陈晓主演，北宋汴京风华录。", plats:["腾讯视频"] },
+  { title:"开端", cat:"电视剧", year:"2022", score:7.9, tags:["悬疑","科幻"], desc:"白敬亭、赵今麦主演，公交车循环悬疑。", plats:["腾讯视频"] },
+  { title:"隐秘的角落", cat:"电视剧", year:"2020", score:8.8, tags:["悬疑","犯罪"], desc:"秦昊主演，三个小孩引发的罪案。", plats:["爱奇艺"] },
+  { title:"沉默的真相", cat:"电视剧", year:"2020", score:9.1, tags:["悬疑","犯罪"], desc:"廖凡主演，横跨十年的检察正义。", plats:["爱奇艺"] },
+  { title:"星汉灿烂", cat:"电视剧", year:"2022", score:7.7, tags:["古装","甜宠"], desc:"吴磊、赵露思主演，古装成长爱情。", plats:["腾讯视频"] },
+  { title:"沉香如屑", cat:"电视剧", year:"2022", score:6.8, tags:["古装","玄幻"], desc:"杨紫、成毅主演，仙侠虐恋。", plats:["优酷"] },
+
+  { title:"流浪地球2", cat:"电影", year:"2023", score:8.3, tags:["科幻","动作"], desc:"吴京、刘德华主演，硬核科幻灾难史诗。", plats:["腾讯视频","爱奇艺"] },
+  { title:"长安三万里", cat:"电影", year:"2023", score:8.0, tags:["古装","治愈"], desc:"追光动画，唐诗与盛唐诗人的浪漫长卷。", plats:["腾讯视频","B站"] },
+  { title:"满江红", cat:"电影", year:"2023", score:7.0, tags:["古装","悬疑"], desc:"张艺谋执导，沈腾、易烊千玺主演悬疑喜剧。", plats:["爱奇艺"] },
+  { title:"热辣滚烫", cat:"电影", year:"2024", score:7.8, tags:["治愈","搞笑"], desc:"贾玲自导自演，为自己而活的瘦身逆袭。", plats:["腾讯视频"] },
+  { title:"封神第一部", cat:"电影", year:"2023", score:7.8, tags:["古装","动作"], desc:"费翔、李雪健主演，殷商神话史诗。", plats:["腾讯视频"] },
+  { title:"孤注一掷", cat:"电影", year:"2023", score:6.9, tags:["犯罪","动作"], desc:"张艺兴、金晨主演，反诈题材。", plats:["爱奇艺"] },
+  { title:"消失的她", cat:"电影", year:"2023", score:6.4, tags:["悬疑","犯罪"], desc:"朱一龙主演，悬疑反转力作。", plats:["腾讯视频"] },
+  { title:"你好李焕英", cat:"电影", year:"2021", score:7.7, tags:["治愈","搞笑"], desc:"贾玲执导，穿越时空的母女深情。", plats:["腾讯视频"] },
+
+  { title:"荒野求生", cat:"综艺", year:"2024", score:7.5, tags:["搞笑","动作"], desc:"明星野外生存挑战，真实又好笑。", plats:["腾讯视频"] },
+  { title:"向往的生活", cat:"综艺", year:"2023", score:8.1, tags:["治愈"], desc:"何炅、黄磊等在乡村慢生活综艺。", plats:["湖南卫视","芒果TV"] },
+  { title:"一年一度喜剧大赛", cat:"综艺", year:"2023", score:8.7, tags:["搞笑"], desc:"原创喜剧竞演，笑点密集。", plats:["爱奇艺"] },
+  { title:"中国说唱巅峰对决", cat:"综艺", year:"2023", score:7.3, tags:["动作"], desc:"华语说唱强者对决舞台。", plats:["爱奇艺"] },
+  { title:"乘风2024", cat:"综艺", year:"2024", score:6.5, tags:["治愈"], desc:"姐姐们的舞台竞演。", plats:["芒果TV"] },
+  { title:"奔跑吧", cat:"综艺", year:"2024", score:6.8, tags:["搞笑","动作"], desc:"户外竞技真人秀。", plats:["浙江卫视","腾讯视频"] },
+  { title:"脱口秀和Ta的朋友", cat:"综艺", year:"2023", score:7.6, tags:["搞笑"], desc:"脱口秀演员的爆笑对决。", plats:["腾讯视频"] },
+
+  { title:"三体", cat:"动漫", year:"2022", score:8.6, tags:["科幻","悬疑"], desc:"艺画开天改编，科幻动画神作。", plats:["腾讯视频"] },
+  { title:"雾山五行", cat:"动漫", year:"2023", score:8.8, tags:["古装","动作"], desc:"国风水墨打斗，极致视觉。", plats:["B站"] },
+  { title:"中国奇谭", cat:"动漫", year:"2023", score:8.9, tags:["治愈","古装"], desc:"上海美术电影制片厂出品，中式奇幻短篇集。", plats:["B站"] },
+  { title:"深海", cat:"动漫", year:"2023", score:7.5, tags:["科幻","治愈"], desc:"田晓鹏执导，粒子水墨动画电影。", plats:["腾讯视频"] },
+  { title:"斗罗大陆", cat:"动漫", year:"2018", score:8.1, tags:["玄幻","动作"], desc:"唐家三少同名小说改编，超长连载国漫。", plats:["腾讯视频"] },
+  { title:"斗破苍穹", cat:"动漫", year:"2017", score:8.2, tags:["玄幻","动作"], desc:"天蚕土豆同名小说改编，三年之约名场面。", plats:["腾讯视频"] },
+  { title:"完美世界", cat:"动漫", year:"2021", score:8.3, tags:["玄幻","动作"], desc:"辰东同名小说改编，石昊成长之路。", plats:["腾讯视频"] },
+  { title:"凡人修仙传", cat:"动漫", year:"2020", score:8.9, tags:["玄幻","古装"], desc:"忘语同名小说改编，凡人流修仙标杆。", plats:["B站"] },
+  { title:"遮天", cat:"动漫", year:"2023", score:7.6, tags:["玄幻","动作"], desc:"辰东同名小说改编，九龙拉棺开启荒古。", plats:["腾讯视频"] },
+  { title:"吞噬星空", cat:"动漫", year:"2020", score:8.0, tags:["科幻","动作"], desc:"我吃西红柿同名小说改编，未来科幻国漫。", plats:["腾讯视频"] },
+  { title:"剑来", cat:"动漫", year:"2024", score:7.4, tags:["古装","玄幻"], desc:"烽火戏诸侯同名小说改编，大千世界剑道。", plats:["B站"] },
+  { title:"灵笼", cat:"动漫", year:"2019", score:8.3, tags:["科幻","动作"], desc:"艺画开天作品，末世废土科幻动画。", plats:["B站"] }
+];
+
+const LISTS = [
+  { title:"悬疑烧脑 · 一口气看完", desc:"反转再反转，越看越上头", items:["漫长的季节","隐秘的角落","沉默的真相","开端","狂飙"] },
+  { title:"治愈解压 · 累了就看这个", desc:"慢节奏暖人心，看完松一口气", items:["去有风的地方","向往的生活","长安三万里","中国奇谭","你好李焕英"] },
+  { title:"国风华美 · 视觉盛宴", desc:"古装美学拉满，画面就是享受", items:["繁花","庆余年 第二季","雾山五行","长安三万里","凡人修仙传"] },
+  { title:"玄幻修仙 · 热血爽文", desc:"国漫玄幻长篇，追更停不下来", items:["斗罗大陆","斗破苍穹","完美世界","遮天","凡人修仙传","剑来"] },
+  { title:"科幻硬核 · 脑洞大开", desc:"硬核设定，看完久久回味", items:["三体","流浪地球2","深海","吞噬星空","灵笼"] }
+];
+
+const COMMENTS = [
+  { user:"追剧少女", avatar:"追", color:"#ff6a3d", date:"2026-09-15", text:"刚在群里被安利了《漫长的季节》，一天刷完十二集，后劲太大了，晚上都睡不着。", likes:128 },
+  { user:"斗罗老粉", avatar:"斗", color:"#667eea", date:"2026-09-14", text:"斗罗大陆动漫追了六年了，从小学看到大学，唐三成神那段看哭了，每周等更新太煎熬。", likes:256 },
+  { user:"剧荒中", avatar:"剧", color:"#f5576c", date:"2026-09-12", text:"推荐《凡人修仙传》，动画制作真的精良，韩立这个人设太真实了，不圣母不恋爱脑。", likes:89 },
+  { user:"科幻迷", avatar:"科", color:"#4facfe", date:"2026-09-10", text:"三体电视剧拍得真不错，于和伟演史强绝了，看完又去补了动画版和原著。", likes:167 },
+  { user:"甜宠爱好者", avatar:"甜", color:"#fa709a", date:"2026-09-08", text:"《去有风的地方》太治愈了，看完立马买了去大理的机票，刘亦菲颜值巅峰。", likes:94 },
+  { user:"悬疑党", avatar:"悬", color:"#330867", date:"2026-09-05", text:"《沉默的真相》看三遍了，白宇演的江阳太好哭，国产悬疑天花板不接受反驳。", likes:203 },
+  { user:"国漫崛起", avatar:"国", color:"#43e97b", date:"2026-09-02", text:"《雾山五行》打戏太炸了，国风水墨作画，每帧都是壁纸，三集根本不够看。", likes:145 },
+  { user:"综艺咖", avatar:"综", color:"#fee140", date:"2026-08-28", text:"《一年一度喜剧大赛》每期都笑到肚子疼，胖达人的《进化论》我能看十遍。", likes:76 },
+  { user:"新剧播报", avatar:"新", color:"#30cfd0", date:"2026-08-25", text:"群里每天有人安利新剧，再也不用怕剧荒了，已经从群里追了二十多部了。", likes:67 },
+  { user:"打工人追剧", avatar:"打", color:"#a8edea", date:"2026-08-20", text:"下班窝在沙发看剧太爽了，群友推荐的都是高分好剧，踩雷率极低。", likes:58 }
+];
+
+const PLATFORM_SEARCH = {
+  "腾讯视频": q => `https://v.qq.com/x/search/?q=${encodeURIComponent(q)}`,
+  "爱奇艺": q => `https://so.iqiyi.com/so?q=${encodeURIComponent(q)}`,
+  "优酷": q => `https://so.youku.com/search_video/q_${encodeURIComponent(q)}`,
+  "B站": q => `https://search.bilibili.com/all?keyword=${encodeURIComponent(q)}`,
+  "芒果TV": q => `https://so.mgtv.com/so?k=${encodeURIComponent(q)}`,
+  "湖南卫视": q => `https://so.mgtv.com/so?k=${encodeURIComponent(q)}`,
+  "咪咕": q => `https://www.miguvideo.com/search/${encodeURIComponent(q)}`,
+  "浙江卫视": q => `https://www.zjstv.com/search?key=${encodeURIComponent(q)}`
+};
+
+const COLORS = [
+  "linear-gradient(135deg,#ff6a3d,#ff3d6e)","linear-gradient(135deg,#667eea,#764ba2)",
+  "linear-gradient(135deg,#f093fb,#f5576c)","linear-gradient(135deg,#4facfe,#00f2fe)",
+  "linear-gradient(135deg,#43e97b,#38f9d7)","linear-gradient(135deg,#fa709a,#fee140)",
+  "linear-gradient(135deg,#30cfd0,#330867)","linear-gradient(135deg,#a8edea,#fed6e3)"
+];
+
+let activeCat = "全部";
+let activeTag = "全部";
+let keyword = "";
+
+function render() {
+  const grid = document.getElementById("grid");
+  const list = SHOWS.filter(s => {
+    const matchCat = activeCat === "全部" || s.cat === activeCat;
+    const matchTag = activeTag === "全部" || s.tags.includes(activeTag);
+    const matchKw = !keyword || s.title.includes(keyword) || s.desc.includes(keyword);
+    return matchCat && matchTag && matchKw;
+  });
+
+  if (list.length === 0) {
+    grid.innerHTML = '<div class="empty">没找到相关影片，换个关键词试试～<br>也可以加入群聊，让剧友帮你推荐。</div>';
+    return;
+  }
+
+  grid.innerHTML = list.map((s, i) => {
+    const color = COLORS[i % COLORS.length];
+    const platforms = s.plats.map(p => `<span class="plat">${p}</span>`).join("");
+    const tagChips = s.tags.map(t => `<span class="t">${t}</span>`).join("");
+    const firstPlat = s.plats[0];
+    const url = (PLATFORM_SEARCH[firstPlat] || (q => `https://www.baidu.com/s?wd=${encodeURIComponent(q)}正版观看`))(s.title);
+    return `
+      <div class="card">
+        <div class="poster" style="background:${color}">
+          ${s.title}
+          <span class="score-badge">${s.score}分</span>
+        </div>
+        <div class="card-body">
+          <div class="title">${s.title}</div>
+          <div class="meta">${s.year} · ${s.cat}</div>
+          <div class="desc">${s.desc}</div>
+          <div class="card-tags">${tagChips}</div>
+          <div class="platforms">${platforms}</div>
+          <a class="watch-btn" href="${url}" target="_blank" rel="noopener">去正版观看 →</a>
+        </div>
+      </div>`;
+  }).join("");
+}
+
+function renderLists() {
+  document.getElementById("lists").innerHTML = LISTS.map(l => `
+    <div class="list-card">
+      <div class="lc-title">${l.title}</div>
+      <div class="lc-desc">${l.desc}</div>
+      <div class="lc-items">${l.items.map(i => `<span class="lc-item">${i}</span>`).join("")}</div>
+    </div>`).join("");
+}
+
+function renderComments() {
+  document.getElementById("comments").innerHTML = COMMENTS.map(c => `
+    <div class="comment-item">
+      <div class="comment-head">
+        <div class="avatar" style="background:${c.color}">${c.avatar}</div>
+        <div class="comment-user">${c.user}</div>
+        <div class="comment-date">${c.date}</div>
+      </div>
+      <div class="comment-text">${c.text}</div>
+      <div class="comment-likes">赞 ${c.likes}</div>
+    </div>`).join("");
+}
+
+document.getElementById("tabs").addEventListener("click", e => {
+  if (!e.target.classList.contains("tab")) return;
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  e.target.classList.add("active");
+  activeCat = e.target.dataset.cat;
+  render();
+});
+
+document.getElementById("tags").addEventListener("click", e => {
+  if (!e.target.classList.contains("tag")) return;
+  document.querySelectorAll(".tag").forEach(t => t.classList.remove("active"));
+  e.target.classList.add("active");
+  activeTag = e.target.dataset.tag;
+  render();
+});
+
+document.getElementById("searchInput").addEventListener("input", e => {
+  keyword = e.target.value.trim();
+  render();
+});
+
+function copyGroup() {
+  const no = "1101932942";
+  navigator.clipboard.writeText(no).then(() => {
+    document.querySelectorAll(".secondary-btn").forEach(btn => {
+      const old = btn.textContent;
+      btn.textContent = "已复制！去QQ加群";
+      setTimeout(() => btn.textContent = old, 2000);
+    });
+  }).catch(() => prompt("复制群号：", no));
+}
+
+render();
+renderLists();
+renderComments();
+</script>
+</body>
+</html>
