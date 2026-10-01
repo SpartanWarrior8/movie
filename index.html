@@ -44,8 +44,13 @@
   .top-cta-text { flex: 1; min-width: 180px; }
   .top-cta-text .t1 { font-size: 16px; font-weight: 700; color: #ff3d6e; }
   .top-cta-text .t2 { font-size: 13px; color: #888; margin-top: 2px; }
-  .top-cta-text .t3 { font-size: 14px; font-weight: 700; color: #ff3d6e; margin-top: 6px; }
-  .top-cta-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+  .top-cta-btns { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+  .top-cta-btns .btns-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .top-cta-btns .t3 {
+    display: inline-block; padding: 4px 12px; border-radius: 999px;
+    background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff;
+    font-size: 13px; font-weight: 700;
+  }
   .top-cta-btns a, .top-cta-btns button {
     padding: 10px 22px; border-radius: 999px; font-size: 14px; font-weight: 600;
     border: none; cursor: pointer; text-decoration: none;
@@ -192,11 +197,13 @@
     <div class="top-cta-text">
       <div class="t1">追剧互助群 · 1101932942</div>
       <div class="t2">新剧上线有人安利 · 剧荒有人推荐 · 看完一起聊 · 无红包纯交流</div>
-      <div class="t3">🔥 进群解锁：免费新剧秒回 + 剧荒问群友</div>
     </div>
     <div class="top-cta-btns">
-      <a class="main" href="https://qun.qq.com/universal-share/share?ac=1&authKey=hIUenkjX0%2Brl87QQBvC4SCB1qHPzGy5ekyFWiVfGKQ1o1jODPEo3FEEKUnGfwFWT&busi_data=eyJncm91cENvZGUiOiIxMTAxOTMyOTQyIiwidG9rZW4iOiI5cnJhSFhtVEswTWlwVVpHbEx1TTVBMFpja082MzdtT0l2R3dZMlZmQk5rKzdnc0xoL21GbGpQNFJzNXd2bzl1IiwidWluIjoiMTc4NjA1MDI1MiJ9&data=9DCedU5qgSSJJpYCU4r15DDKa9_Z2HoI3AQiO7HDMHPXv6sslV5k5H448XcEwg14bTTzBcAtFSd8W42uJxHeJg&svctype=4&tempid=h5_group_info" target="_blank" rel="noopener">一键加群</a>
-      <button class="sub" onclick="copyGroup()">复制群号</button>
+      <div class="btns-row">
+        <a class="main" href="https://qun.qq.com/universal-share/share?ac=1&authKey=hIUenkjX0%2Brl87QQBvC4SCB1qHPzGy5ekyFWiVfGKQ1o1jODPEo3FEEKUnGfwFWT&busi_data=eyJncm91cENvZGUiOiIxMTAxOTMyOTQyIiwidG9rZW4iOiI5cnJhSFhtVEswTWlwVVpHbEx1TTVBMFpja082MzdtT0l2R3dZMlZmQk5rKzdnc0xoL21GbGpQNFJzNXd2bzl1IiwidWluIjoiMTc4NjA1MDI1MiJ9&data=9DCedU5qgSSJJpYCU4r15DDKa9_Z2HoI3AQiO7HDMHPXv6sslV5k5H448XcEwg14bTTzBcAtFSd8W42uJxHeJg&svctype=4&tempid=h5_group_info" target="_blank" rel="noopener">一键加群</a>
+        <button class="sub" onclick="copyGroup()">复制群号</button>
+      </div>
+      <div class="t3">🔥 进群解锁：免费新剧 + 剧荒问群友</div>
     </div>
   </div>
 </div>
@@ -663,6 +670,11 @@ var _hmt = _hmt || [];
 
 </body>
 </html>
+
+
+
+
+
 
 
 
