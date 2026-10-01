@@ -44,6 +44,7 @@
   .top-cta-text { flex: 1; min-width: 180px; }
   .top-cta-text .t1 { font-size: 16px; font-weight: 700; color: #ff3d6e; }
   .top-cta-text .t2 { font-size: 13px; color: #888; margin-top: 2px; }
+  .top-cta-text .t3 { font-size: 14px; font-weight: 700; color: #ff3d6e; margin-top: 6px; }
   .top-cta-btns { display: flex; gap: 10px; flex-wrap: wrap; }
   .top-cta-btns a, .top-cta-btns button {
     padding: 10px 22px; border-radius: 999px; font-size: 14px; font-weight: 600;
@@ -191,6 +192,7 @@
     <div class="top-cta-text">
       <div class="t1">追剧互助群 · 1101932942</div>
       <div class="t2">新剧上线有人安利 · 剧荒有人推荐 · 看完一起聊 · 无红包纯交流</div>
+      <div class="t3">🔥 进群解锁：免费新剧秒回 + 剧荒问群友</div>
     </div>
     <div class="top-cta-btns">
       <a class="main" href="https://qun.qq.com/universal-share/share?ac=1&authKey=hIUenkjX0%2Brl87QQBvC4SCB1qHPzGy5ekyFWiVfGKQ1o1jODPEo3FEEKUnGfwFWT&busi_data=eyJncm91cENvZGUiOiIxMTAxOTMyOTQyIiwidG9rZW4iOiI5cnJhSFhtVEswTWlwVVpHbEx1TTVBMFpja082MzdtT0l2R3dZMlZmQk5rKzdnc0xoL21GbGpQNFJzNXd2bzl1IiwidWluIjoiMTc4NjA1MDI1MiJ9&data=9DCedU5qgSSJJpYCU4r15DDKa9_Z2HoI3AQiO7HDMHPXv6sslV5k5H448XcEwg14bTTzBcAtFSd8W42uJxHeJg&svctype=4&tempid=h5_group_info" target="_blank" rel="noopener">一键加群</a>
@@ -273,7 +275,6 @@ const SHOWS = [
   { title:"伪装者", cat:"电视剧", year:"2015", score:8.6, tags:["悬疑","谍战","动作"], desc:"胡歌、靳东、王凯主演，明家三兄弟。", plats:["腾讯视频","芒果TV"] },
   { title:"白夜追凶", cat:"电视剧", year:"2017", score:9.0, tags:["悬疑","犯罪"], desc:"潘粤明一人分饰双胞胎，刑侦悬疑。", plats:["优酷"] },
   { title:"猎罪图鉴", cat:"电视剧", year:"2022", score:7.6, tags:["悬疑","犯罪"], desc:"檀健次主演，画像师刑侦剧。", plats:["腾讯视频","爱奇艺"] },
-  { title:"狂飙", cat:"电视剧", year:"2023", score:8.5, tags:["犯罪","动作"], desc:"张译、张颂文主演。", plats:["爱奇艺"] },
   { title:"尘封十三载", cat:"电视剧", year:"2023", score:8.1, tags:["悬疑","犯罪"], desc:"陈建斌、陈晓主演，跨度十三年。", plats:["爱奇艺"] },
   { title:"平原上的摩西", cat:"电视剧", year:"2023", score:7.6, tags:["悬疑","文艺"], desc:"董宝石、海清主演，东北文艺悬疑。", plats:["腾讯视频"] },
   { title:"回来的女儿", cat:"电视剧", year:"2022", score:7.3, tags:["悬疑","家庭"], desc:"张子枫、梅婷主演，90年代秘密。", plats:["爱奇艺"] },
@@ -320,13 +321,10 @@ const SHOWS = [
   { title:"星落凝成糖", cat:"电视剧", year:"2023", score:7.3, tags:["古装","仙侠"], desc:"李兰迪、陈星旭主演，错嫁神话。", plats:["腾讯视频","爱奇艺"] },
   { title:"长月烬明", cat:"电视剧", year:"2023", score:6.6, tags:["古装","仙侠"], desc:"罗云熙、白鹿主演，澹台烬黎苏苏。", plats:["优酷"] },
   { title:"护心", cat:"电视剧", year:"2023", score:7.2, tags:["古装","玄幻"], desc:"侯明昊、周也主演，天曜雁回。", plats:["优酷"] },
-  { title:"甄嬛传", cat:"电视剧", year:"2011", score:9.3, tags:["古装","宫斗"], desc:"孙俪，宫斗天花板。", plats:["优酷"] },
   { title:"如懿传", cat:"电视剧", year:"2018", score:7.5, tags:["古装","宫斗"], desc:"周迅霍建华，弘历如懿。", plats:["腾讯视频"] },
   { title:"延禧攻略", cat:"电视剧", year:"2018", score:7.1, tags:["古装","宫斗"], desc:"吴谨言聂远，魏璎珞。", plats:["爱奇艺"] },
   { title:"美人心计", cat:"电视剧", year:"2010", score:7.9, tags:["古装","宫斗"], desc:"林心如窦漪房。", plats:["腾讯视频","爱奇艺"] },
   { title:"金枝欲孽", cat:"电视剧", year:"2004", score:9.0, tags:["古装","宫斗"], desc:"TVB宫斗鼻祖。", plats:["埋堆堆"] },
-  { title:"伪装者", cat:"电视剧", year:"2015", score:8.6, tags:["悬疑","谍战","动作"], desc:"胡歌靳东王凯。", plats:["腾讯视频","芒果TV"] },
-  { title:"琅琊榜", cat:"电视剧", year:"2015", score:9.4, tags:["古装","权谋"], desc:"胡歌梅长苏。", plats:["腾讯视频","爱奇艺"] },
 
   { title:"流浪地球2", cat:"电影", year:"2023", score:8.3, tags:["科幻","动作"], desc:"吴京、刘德华主演，硬核科幻灾难史诗。", plats:["腾讯视频","爱奇艺"] },
   { title:"长安三万里", cat:"电影", year:"2023", score:8.0, tags:["古装","治愈"], desc:"追光动画，唐诗与盛唐诗人的浪漫长卷。", plats:["腾讯视频","B站"] },
@@ -490,7 +488,13 @@ const SHOWS = [
   { title:"年会不能停！2", cat:"电影", year:"2026", score:8.9, tags:["喜剧","职场"], desc:"张若昀、白客、高叶主演，职场喜剧续作。", plats:["腾讯视频","爱奇艺"] },
   { title:"杀死比尔：血色全传", cat:"电影", year:"2026", score:8.0, tags:["动作","犯罪"], desc:"经典续作，乌玛·瑟曼回归。", plats:["腾讯视频"] },
   { title:"敦煌英雄", cat:"电影", year:"2026", score:7.8, tags:["动作","历史"], desc:"曹盾执导、马伯庸编剧，孤城求援大漠冒险。", plats:["腾讯视频"] },
-  { title:"老江湖", cat:"电影", year:"2026", score:7.5, tags:["喜剧","犯罪"], desc:"于谦、梁家辉首度银幕对决，市井博弈。", plats:["腾讯视频"] }
+  { title:"老江湖", cat:"电影", year:"2026", score:7.5, tags:["喜剧","犯罪"], desc:"于谦、梁家辉首度银幕对决，市井博弈。", plats:["腾讯视频"] },
+  { title:"我不是大师", cat:"电视剧", year:"2026", score:7.8, tags:["民国","复仇","悬疑"], desc:"李现、李一桐主演，民国命理骗局与复仇。", plats:["爱奇艺"] },
+  { title:"兰香如故", cat:"电视剧", year:"2026", score:7.5, tags:["古装","爱情"], desc:"腾讯视频古装爱情剧，定档9月。", plats:["腾讯视频"] },
+  { title:"侦战", cat:"电影", year:"2026", score:7.6, tags:["犯罪","刑侦"], desc:"2026国庆档刑侦大片，真实大案改编。", plats:["腾讯视频"] },
+  { title:"野兽之心", cat:"电影", year:"2026", score:7.8, tags:["动作","好莱坞"], desc:"2026国庆档好莱坞巨制，9月30日上映。", plats:["腾讯视频"] },
+  { title:"东北话事人", cat:"短剧", year:"2026", score:8.2, tags:["年代","创业","喜剧"], desc:"红果爆款短剧，东北下岗潮回乡创业，9月新剧榜TOP1。", plats:["红果短剧"] },
+  { title:"血契规则", cat:"短剧", year:"2026", score:8.0, tags:["AI短剧","奇幻"], desc:"9月AI短剧榜TOP1，AI原生剧。", plats:["红果短剧"] }
 ];
 
 const LISTS = [
@@ -659,6 +663,9 @@ var _hmt = _hmt || [];
 
 </body>
 </html>
+
+
+
 
 
 
