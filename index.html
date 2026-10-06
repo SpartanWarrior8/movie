@@ -94,10 +94,11 @@
     box-shadow: 0 2px 10px rgba(0,0,0,.05); display: flex; flex-direction: column;
   }
   .poster {
-    height: 120px; display: flex; align-items: center; justify-content: center;
+    height: 180px; display: flex; align-items: center; justify-content: center;
     color: #fff; font-size: 18px; font-weight: 800; text-align: center; padding: 10px;
-    position: relative;
+    position: relative; overflow: hidden;
   }
+  .poster img { width: 100%; height: 100%; object-fit: cover; }
   .score-badge {
     position: absolute; top: 8px; right: 8px;
     background: rgba(0,0,0,.55); color: #ffd060; font-size: 13px; font-weight: 700;
@@ -256,16 +257,16 @@
 
 <script>
 const SHOWS = [
-  { title:"繁花", cat:"电视剧", year:"2023", score:8.7, tags:["古装","商战"], desc:"王家卫执导，胡歌主演，讲上海黄河路的商战与人生。", plats:["腾讯视频"] },
-  { title:"庆余年 第二季", cat:"电视剧", year:"2024", score:7.9, tags:["古装","搞笑"], desc:"张若昀主演，范闲继续在朝堂江湖间智斗周旋。", plats:["腾讯视频"] },
-  { title:"漫长的季节", cat:"电视剧", year:"2023", score:9.4, tags:["悬疑","犯罪"], desc:"范伟主演，北方小城横跨十八年的悬疑往事。", plats:["腾讯视频"] },
-  { title:"狂飙", cat:"电视剧", year:"2023", score:8.5, tags:["犯罪","动作"], desc:"张译、张颂文主演，扫黑除恶二十年风云。", plats:["爱奇艺"] },
-  { title:"三体", cat:"电视剧", year:"2023", score:8.7, tags:["科幻","悬疑"], desc:"张鲁一、于和伟主演，刘慈欣科幻巨制影视化。", plats:["腾讯视频","咪咕"] },
-  { title:"去有风的地方", cat:"电视剧", year:"2023", score:8.6, tags:["治愈","甜宠"], desc:"刘亦菲、李现主演，大理治愈系慢生活。", plats:["湖南卫视","芒果TV"] },
-  { title:"斗罗大陆 真人版", cat:"电视剧", year:"2021", score:6.4, tags:["玄幻","动作"], desc:"肖战、吴宣仪主演，唐家三少玄幻IP改编。", plats:["腾讯视频"] },
-  { title:"长相思", cat:"电视剧", year:"2023", score:7.8, tags:["古装","甜宠"], desc:"杨紫主演，大荒背景下的爱恨纠葛。", plats:["腾讯视频"] },
-  { title:"莲花楼", cat:"电视剧", year:"2023", score:8.5, tags:["古装","武侠","悬疑"], desc:"成毅主演，江湖探案武侠剧。", plats:["芒果TV"] },
-  { title:"梦华录", cat:"电视剧", year:"2022", score:7.9, tags:["古装","甜宠"], desc:"刘亦菲、陈晓主演，北宋汴京风华录。", plats:["腾讯视频"] },
+  { title:"繁花", cat:"电视剧", year:"2023", score:8.7, tags:["古装","商战"], desc:"王家卫执导，胡歌主演，讲上海黄河路的商战与人生。", plats:["腾讯视频"], img:"posters/繁花.jpg" },
+  { title:"庆余年 第二季", cat:"电视剧", year:"2024", score:7.9, tags:["古装","搞笑"], desc:"张若昀主演，范闲继续在朝堂江湖间智斗周旋。", plats:["腾讯视频"], img:"posters/庆余年第二季.jpg" },
+  { title:"漫长的季节", cat:"电视剧", year:"2023", score:9.4, tags:["悬疑","犯罪"], desc:"范伟主演，北方小城横跨十八年的悬疑往事。", plats:["腾讯视频"], img:"posters/漫长的季节.jpg" },
+  { title:"狂飙", cat:"电视剧", year:"2023", score:8.5, tags:["犯罪","动作"], desc:"张译、张颂文主演，扫黑除恶二十年风云。", plats:["爱奇艺"], img:"posters/狂飙.jpg" },
+  { title:"三体", cat:"电视剧", year:"2023", score:8.7, tags:["科幻","悬疑"], desc:"张鲁一、于和伟主演，刘慈欣科幻巨制影视化。", plats:["腾讯视频","咪咕"], img:"posters/三体.jpg" },
+  { title:"去有风的地方", cat:"电视剧", year:"2023", score:8.6, tags:["治愈","甜宠"], desc:"刘亦菲、李现主演，大理治愈系慢生活。", plats:["湖南卫视","芒果TV"], img:"posters/去有风的地方.jpg" },
+  { title:"斗罗大陆 真人版", cat:"电视剧", year:"2021", score:6.4, tags:["玄幻","动作"], desc:"肖战、吴宣仪主演，唐家三少玄幻IP改编。", plats:["腾讯视频"], img:"posters/斗罗大陆真人版.jpg" },
+  { title:"长相思", cat:"电视剧", year:"2023", score:7.8, tags:["古装","甜宠"], desc:"杨紫主演，大荒背景下的爱恨纠葛。", plats:["腾讯视频"], img:"posters/长相思.jpg" },
+  { title:"莲花楼", cat:"电视剧", year:"2023", score:8.5, tags:["古装","武侠","悬疑"], desc:"成毅主演，江湖探案武侠剧。", plats:["芒果TV"], img:"posters/莲花楼.jpg" },
+  { title:"梦华录", cat:"电视剧", year:"2022", score:7.9, tags:["古装","甜宠"], desc:"刘亦菲、陈晓主演，北宋汴京风华录。", plats:["腾讯视频"], img:"posters/梦华录.jpg" },
   { title:"开端", cat:"电视剧", year:"2022", score:7.9, tags:["悬疑","科幻"], desc:"白敬亭、赵今麦主演，公交车循环悬疑。", plats:["腾讯视频"] },
   { title:"隐秘的角落", cat:"电视剧", year:"2020", score:8.8, tags:["悬疑","犯罪"], desc:"秦昊主演，三个小孩引发的罪案。", plats:["爱奇艺"] },
   { title:"沉默的真相", cat:"电视剧", year:"2020", score:9.1, tags:["悬疑","犯罪"], desc:"廖凡主演，横跨十年的检察正义。", plats:["爱奇艺"] },
@@ -501,7 +502,18 @@ const SHOWS = [
   { title:"侦战", cat:"电影", year:"2026", score:7.6, tags:["犯罪","刑侦"], desc:"2026国庆档刑侦大片，真实大案改编。", plats:["腾讯视频"] },
   { title:"野兽之心", cat:"电影", year:"2026", score:7.8, tags:["动作","好莱坞"], desc:"2026国庆档好莱坞巨制，9月30日上映。", plats:["腾讯视频"] },
   { title:"东北话事人", cat:"短剧", year:"2026", score:8.2, tags:["年代","创业","喜剧"], desc:"红果爆款短剧，东北下岗潮回乡创业，9月新剧榜TOP1。", plats:["红果短剧"] },
-  { title:"血契规则", cat:"短剧", year:"2026", score:8.0, tags:["AI短剧","奇幻"], desc:"9月AI短剧榜TOP1，AI原生剧。", plats:["红果短剧"] }
+  { title:"血契规则", cat:"短剧", year:"2026", score:8.0, tags:["AI短剧","奇幻"], desc:"9月AI短剧榜TOP1，AI原生剧。", plats:["红果短剧"] },
+  { title:"云雀叫天录", cat:"电视剧", year:"2026", score:7.9, tags:["古装","传奇"], desc:"10月热度榜TOP5，京剧传奇改编。", plats:["腾讯视频"] },
+  { title:"余红旧事", cat:"电视剧", year:"2026", score:8.1, tags:["悬疑","犯罪"], desc:"马伊琍主演，迷雾剧场，杀夫五次悬疑。", plats:["爱奇艺"] },
+  { title:"法医秦明之天谴者", cat:"电视剧", year:"2026", score:7.6, tags:["悬疑","法医"], desc:"10月热度榜TOP15，法医悬疑新作。", plats:["腾讯视频"] },
+  { title:"这一秒过火", cat:"电视剧", year:"2026", score:7.4, tags:["都市","情感"], desc:"10月热度榜TOP19，都市情感剧。", plats:["爱奇艺"] },
+  { title:"莫离", cat:"电视剧", year:"2026", score:7.3, tags:["家庭","伦理"], desc:"10月热度榜TOP20，家庭伦理剧。", plats:["优酷"] },
+  { title:"神探之痕迹", cat:"电影", year:"2026", score:7.8, tags:["悬疑","犯罪"], desc:"国庆档票房TOP1，悬疑探案。", plats:["腾讯视频"] },
+  { title:"什么意思夫妇", cat:"电影", year:"2026", score:7.5, tags:["喜剧","爱情"], desc:"国庆档票房TOP2，夫妻喜剧。", plats:["爱奇艺"] },
+  { title:"生化危机：爆发夜", cat:"电影", year:"2026", score:7.6, tags:["科幻","恐怖"], desc:"国庆档票房TOP3，生化危机新片。", plats:["腾讯视频"] },
+  { title:"欢迎来龙餐馆", cat:"电影", year:"2026", score:7.7, tags:["剧情","悬疑"], desc:"国庆档票房TOP4，黑色幽默。", plats:["爱奇艺"] },
+  { title:"花归锦宫城", cat:"短剧", year:"2026", score:8.3, tags:["古装","女将军"], desc:"红果新剧榜TOP1，女将军与赘婿皇子。", plats:["红果短剧"] },
+  { title:"幻虚亡命", cat:"短剧", year:"2026", score:8.1, tags:["AI短剧","科幻"], desc:"10月AI短剧榜TOP1，虚实之间。", plats:["红果短剧"] }
 ];
 
 const LISTS = [
@@ -583,7 +595,7 @@ function render() {
     return `
       <div class="card">
         <div class="poster" style="background:${color}">
-          ${s.title}
+          ${s.img ? `<img src="${s.img}" alt="${s.title}">` : s.title}
           <span class="score-badge">${s.score}分</span>
         </div>
         <div class="card-body">
@@ -670,6 +682,7 @@ var _hmt = _hmt || [];
 
 </body>
 </html>
+
 
 
 
