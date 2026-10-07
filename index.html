@@ -118,6 +118,15 @@
     text-decoration: none; font-size: 14px; font-weight: 600;
   }
   .empty { text-align: center; color: #999; padding: 60px 20px; grid-column: 1/-1; }
+  .load-more-wrap { text-align: center; padding: 30px 20px; grid-column: 1/-1; }
+  .load-more-btn {
+    background: linear-gradient(135deg, #ff6a3d, #f5576c);
+    color: white; border: none; padding: 12px 40px; border-radius: 25px;
+    font-size: 16px; font-weight: 600; cursor: pointer;
+    box-shadow: 0 4px 15px rgba(245,87,108,0.3);
+    transition: transform 0.2s;
+  }
+  .load-more-btn:hover { transform: translateY(-2px); }
   .count-info { max-width: 900px; margin: 0 auto; padding: 0 20px; font-size: 13px; color: #999; }
 
   .lists { max-width: 900px; margin: 0 auto 40px; padding: 0 20px; }
@@ -267,16 +276,16 @@ const SHOWS = [
   { title:"长相思", cat:"电视剧", year:"2023", score:7.8, tags:["古装","甜宠"], desc:"杨紫主演，大荒背景下的爱恨纠葛。", plats:["腾讯视频"], img:"posters/长相思.jpg" },
   { title:"莲花楼", cat:"电视剧", year:"2023", score:8.5, tags:["古装","武侠","悬疑"], desc:"成毅主演，江湖探案武侠剧。", plats:["芒果TV"], img:"posters/莲花楼.jpg" },
   { title:"梦华录", cat:"电视剧", year:"2022", score:7.9, tags:["古装","甜宠"], desc:"刘亦菲、陈晓主演，北宋汴京风华录。", plats:["腾讯视频"], img:"posters/梦华录.jpg" },
-  { title:"开端", cat:"电视剧", year:"2022", score:7.9, tags:["悬疑","科幻"], desc:"白敬亭、赵今麦主演，公交车循环悬疑。", plats:["腾讯视频"] },
-  { title:"隐秘的角落", cat:"电视剧", year:"2020", score:8.8, tags:["悬疑","犯罪"], desc:"秦昊主演，三个小孩引发的罪案。", plats:["爱奇艺"] },
-  { title:"沉默的真相", cat:"电视剧", year:"2020", score:9.1, tags:["悬疑","犯罪"], desc:"廖凡主演，横跨十年的检察正义。", plats:["爱奇艺"] },
-  { title:"星汉灿烂", cat:"电视剧", year:"2022", score:7.7, tags:["古装","甜宠"], desc:"吴磊、赵露思主演，古装成长爱情。", plats:["腾讯视频"] },
-  { title:"甄嬛传", cat:"电视剧", year:"2011", score:9.3, tags:["古装","宫斗"], desc:"孙俪主演，宫廷剧天花板，百看不厌。", plats:["优酷"] },
-  { title:"琅琊榜", cat:"电视剧", year:"2015", score:9.4, tags:["古装","权谋"], desc:"胡歌主演，梅长苏雪冤夺嫡经典。", plats:["腾讯视频","爱奇艺"] },
-  { title:"武林外传", cat:"电视剧", year:"2006", score:9.6, tags:["搞笑","古装"], desc:"尚敬执导，同福客栈经典喜剧。", plats:["腾讯视频","爱奇艺"] },
-  { title:"亮剑", cat:"电视剧", year:"2005", score:9.5, tags:["动作","战争"], desc:"李幼斌主演，李云龙亮剑精神。", plats:["腾讯视频","爱奇艺"] },
+  { title:"开端", cat:"电视剧", year:"2022", score:7.9, tags:["悬疑","科幻"], desc:"白敬亭、赵今麦主演，公交车循环悬疑。", plats:["腾讯视频"], img:"posters/开端.jpg" },
+  { title:"隐秘的角落", cat:"电视剧", year:"2020", score:8.8, tags:["悬疑","犯罪"], desc:"秦昊主演，三个小孩引发的罪案。", plats:["爱奇艺"], img:"posters/隐秘的角落.jpg" },
+  { title:"沉默的真相", cat:"电视剧", year:"2020", score:9.1, tags:["悬疑","犯罪"], desc:"廖凡主演，横跨十年的检察正义。", plats:["爱奇艺"], img:"posters/沉默的真相.jpg" },
+  { title:"星汉灿烂", cat:"电视剧", year:"2022", score:7.7, tags:["古装","甜宠"], desc:"吴磊、赵露思主演，古装成长爱情。", plats:["腾讯视频"], img:"posters/星汉灿烂.jpg" },
+  { title:"甄嬛传", cat:"电视剧", year:"2011", score:9.3, tags:["古装","宫斗"], desc:"孙俪主演，宫廷剧天花板，百看不厌。", plats:["优酷"], img:"posters/甄嬛传.jpg" },
+  { title:"琅琊榜", cat:"电视剧", year:"2015", score:9.4, tags:["古装","权谋"], desc:"胡歌主演，梅长苏雪冤夺嫡经典。", plats:["腾讯视频","爱奇艺"], img:"posters/琅琊榜.jpg" },
+  { title:"武林外传", cat:"电视剧", year:"2006", score:9.6, tags:["搞笑","古装"], desc:"尚敬执导，同福客栈经典喜剧。", plats:["腾讯视频","爱奇艺"], img:"posters/武林外传.jpg" },
+  { title:"亮剑", cat:"电视剧", year:"2005", score:9.5, tags:["动作","战争"], desc:"李幼斌主演，李云龙亮剑精神。", plats:["腾讯视频","爱奇艺"], img:"posters/亮剑.jpg" },
   { title:"西游记", cat:"电视剧", year:"1986", score:9.7, tags:["古装","玄幻"], desc:"六小龄童主演，童年回忆杀。", plats:["央视网"] },
-  { title:"红楼梦", cat:"电视剧", year:"1987", score:9.6, tags:["古装","文学"], desc:"陈晓旭主演，经典文学改编。", plats:["央视网"] },
+  { title:"红楼梦", cat:"电视剧", year:"1987", score:9.6, tags:["古装","文学"], desc:"陈晓旭主演，经典文学改编。", plats:["央视网"], img:"posters/红楼梦.jpg" },
   { title:"三国演义", cat:"电视剧", year:"1994", score:9.6, tags:["古装","历史","权谋"], desc:"唐国强主演，四大名著经典。", plats:["央视网"] },
   { title:"潜伏", cat:"电视剧", year:"2009", score:9.4, tags:["悬疑","谍战"], desc:"孙红雷、姚晨主演，谍战经典。", plats:["爱奇艺"] },
   { title:"风筝", cat:"电视剧", year:"2017", score:9.0, tags:["悬疑","谍战"], desc:"柳云龙主演，谍战巅峰之作。", plats:["腾讯视频"] },
@@ -513,7 +522,13 @@ const SHOWS = [
   { title:"生化危机：爆发夜", cat:"电影", year:"2026", score:7.6, tags:["科幻","恐怖"], desc:"国庆档票房TOP3，生化危机新片。", plats:["腾讯视频"] },
   { title:"欢迎来龙餐馆", cat:"电影", year:"2026", score:7.7, tags:["剧情","悬疑"], desc:"国庆档票房TOP4，黑色幽默。", plats:["爱奇艺"] },
   { title:"花归锦宫城", cat:"短剧", year:"2026", score:8.3, tags:["古装","女将军"], desc:"红果新剧榜TOP1，女将军与赘婿皇子。", plats:["红果短剧"] },
-  { title:"幻虚亡命", cat:"短剧", year:"2026", score:8.1, tags:["AI短剧","科幻"], desc:"10月AI短剧榜TOP1，虚实之间。", plats:["红果短剧"] }
+  { title:"幻虚亡命", cat:"短剧", year:"2026", score:8.1, tags:["AI短剧","科幻"], desc:"10月AI短剧榜TOP1，虚实之间。", plats:["红果短剧"] },
+
+  { title:"伟大的长征", cat:"电视剧", year:"2026", score:9.2, tags:["革命","历史"], desc:"CCTV-1黄金档，60集重大革命题材史诗，重现长征伟大历程。", plats:["央视网","爱奇艺","咪咕"] },
+  { title:"无人似你", cat:"短剧", year:"2026", score:7.8, tags:["都市","爱情"], desc:"红果短剧，七年校园情侣重逢，驰先生再度失控。", plats:["红果短剧"] },
+  { title:"尘墟鬼事", cat:"短剧", year:"2026", score:8.1, tags:["悬疑","惊悚"], desc:"红果爆款悬疑短剧，禁区宿舍楼，尘土之下另有真相。", plats:["红果短剧"] },
+  { title:"归墟", cat:"短剧", year:"2026", score:7.9, tags:["悬疑","奇幻"], desc:"红果悬疑短剧，水归深处，美丽背后藏着恶意。", plats:["红果短剧"] },
+  { title:"美艳恶意", cat:"短剧", year:"2026", score:7.7, tags:["悬疑","犯罪"], desc:"红果悬疑短剧，美艳外表下的恶意与阴谋。", plats:["红果短剧"] },
 ];
 
 const LISTS = [
@@ -528,6 +543,12 @@ const LISTS = [
 ];
 
 const COMMENTS = [
+  { user:"长征观众", avatar:"长", color:"#e74c3c", date:"2026-10-07", text:"《伟大的长征》明天就开播了！终于等到了，CCTV-1黄金档必追。", likes:45 },
+  { user:"短剧爱好者", avatar:"短", color:"#9b59b6", date:"2026-10-06", text:"《尘墟鬼事》太好看了！红果短剧现在质量越来越高，一集根本不够看。", likes:78 },
+  { user:"群友推荐", avatar:"群", color:"#f39c12", date:"2026-10-05", text:"在群里被安利了《归墟》，熬夜看完了，结局反转太意外了。", likes:56 },
+  { user:"十月新剧", avatar:"十", color:"#1abc9c", date:"2026-10-04", text:"十月新剧好多啊，群里每天有人安利，这个月剧荒不存在的。", likes:89 },
+  { user:"红果铁粉", avatar:"红", color:"#e91e63", date:"2026-10-03", text:"《无人似你》太甜了！孟娜演得好好，每天等更新等得抓心挠肝。", likes:67 },
+
   { user:"追剧少女", avatar:"追", color:"#ff6a3d", date:"2026-09-15", text:"刚在群里被安利了《漫长的季节》，一天刷完十二集，后劲太大了，晚上都睡不着。", likes:128 },
   { user:"斗罗老粉", avatar:"斗", color:"#667eea", date:"2026-09-14", text:"斗罗大陆动漫追了六年了，从小学看到大学，唐三成神那段看哭了，每周等更新太煎熬。", likes:256 },
   { user:"剧荒中", avatar:"剧", color:"#f5576c", date:"2026-09-12", text:"推荐《凡人修仙传》，动画制作真的精良，韩立这个人设太真实了，不圣母不恋爱脑。", likes:89 },
@@ -570,6 +591,8 @@ let activeCat = "全部";
 let activeTag = "全部";
 let keyword = "";
 
+let visibleCount = 40; // 默认显示40部
+
 function render() {
   const grid = document.getElementById("grid");
   const list = SHOWS.filter(s => {
@@ -586,7 +609,11 @@ function render() {
     return;
   }
 
-  grid.innerHTML = list.map((s, i) => {
+  // 只显示前visibleCount部
+  const visibleList = list.slice(0, visibleCount);
+  const hasMore = visibleCount < list.length;
+
+  grid.innerHTML = visibleList.map((s, i) => {
     const color = COLORS[i % COLORS.length];
     const platforms = s.plats.map(p => `<span class="plat">${p}</span>`).join("");
     const tagChips = s.tags.map(t => `<span class="t">${t}</span>`).join("");
@@ -607,7 +634,15 @@ function render() {
           <a class="watch-btn" href="${url}" target="_blank" rel="noopener">去正版观看 →</a>
         </div>
       </div>`;
-  }).join("");
+  }).join("") + (hasMore ? `
+    <div class="load-more-wrap">
+      <button class="load-more-btn" onclick="loadMore()">加载更多（还有 ${list.length - visibleCount} 部）</button>
+    </div>` : "");
+}
+
+function loadMore() {
+  visibleCount += 40;
+  render();
 }
 
 function renderLists() {
@@ -637,6 +672,7 @@ document.getElementById("tabs").addEventListener("click", e => {
   document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
   e.target.classList.add("active");
   activeCat = e.target.dataset.cat;
+  visibleCount = 40; // 切换分类时重置数量
   render();
 });
 
@@ -645,11 +681,13 @@ document.getElementById("tags").addEventListener("click", e => {
   document.querySelectorAll(".tag").forEach(t => t.classList.remove("active"));
   e.target.classList.add("active");
   activeTag = e.target.dataset.tag;
+  visibleCount = 40; // 切换标签时重置数量
   render();
 });
 
 document.getElementById("searchInput").addEventListener("input", e => {
   keyword = e.target.value.trim();
+  visibleCount = 40; // 搜索时重置数量
   render();
 });
 
